@@ -2,10 +2,10 @@ import 'package:flutter_sixvalley_ecommerce/data/model/response/language_model.d
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 
 class AppConstants {
-  static const String appName = 'M.A.I.D.C';
-  static const String slogan = 'E-Commerce Marketplace';
+  static const String appName = 'Maha Agro Mart';
+  static const String slogan = 'Agro Marketplace';
   static const String appVersion = '14.1';
-  static const String baseUrl = 'https://maidc.shahbazali.website';
+  static const String baseUrl = 'https://mahaagromart.com';
   static const String userId = 'userId';
   static const String name = 'name';
   static const String categoriesUri = '/api/v1/categories?guest_id=1';
