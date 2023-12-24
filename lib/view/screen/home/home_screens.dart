@@ -46,6 +46,7 @@ import 'package:flutter_sixvalley_ecommerce/view/screen/home/widget/top_seller_v
 import 'package:flutter_sixvalley_ecommerce/view/screen/product/view_all_product_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/search/search_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/shop/all_shop_screen.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -83,6 +84,9 @@ class _HomePageState extends State<HomePage> {
         .getCartDataAPI(Get.context!);
     await Provider.of<NotificationProvider>(Get.context!, listen: false)
         .getNotificationList(1);
+
+    await Provider.of<AuthProvider>(Get.context!, listen: false)
+        .getWeatherData();
     if (Provider.of<AuthProvider>(Get.context!, listen: false).isLoggedIn()) {
       await Provider.of<ProfileProvider>(Get.context!, listen: false)
           .getUserInfo(Get.context!);
@@ -178,6 +182,85 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     const BannersView(),
                     const SizedBox(height: Dimensions.homePagePadding),
+
+                    //Weather Data in Auth Repo
+                    Consumer<AuthProvider>(
+                      builder: (context, authProvider, child) {
+                        return authProvider.weatherData != null
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: Dimensions.homePagePadding),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          Dimensions.paddingSizeSmall),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondaryContainer),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        //which day today
+                                        // Datetime.now().weekday
+                                        // Text(DateTime.now().weekday.toString(),
+                                        //     style: textBold.copyWith(
+                                        //         fontSize: 20)),
+                                        //Like sunday monday tuesday
+                                        // Date and day
+                                        Text(
+                                          '${DateFormat('dd MMMM').format(DateTime.now())}',
+                                          style:
+                                              textBold.copyWith(fontSize: 20),
+                                        ),
+                                        Text(
+                                          '${DateFormat('EEEE').format(DateTime.now())}',
+                                        ),
+
+                                        SizedBox(height: 10),
+
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Icon(Icons.thermostat_outlined),
+                                                const SizedBox(
+                                                    width: Dimensions
+                                                        .paddingSizeSmall),
+                                                Text(
+                                                    " ${authProvider.weatherData!.current?.temperature2M}" +
+                                                        '°',
+                                                    style: textBold.copyWith(
+                                                        fontSize: 20)),
+                                              ],
+                                            ),
+                                            //wind Speed
+                                            Row(
+                                              children: [
+                                                Icon(Icons.air_outlined),
+                                                const SizedBox(
+                                                    width: Dimensions
+                                                        .paddingSizeSmall),
+                                                Text(
+                                                    " ${authProvider.weatherData!.current?.windSpeed10M}" +
+                                                        'km/h',
+                                                    style: textBold.copyWith(
+                                                        fontSize: 20)),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ))
+                            : const SizedBox();
+                      },
+                    ),
 
                     // Flash Deal
                     Consumer<FlashDealProvider>(
@@ -333,29 +416,23 @@ class _HomePageState extends State<HomePage> {
                           ? featured.featuredProductList!.isNotEmpty
                               ? Stack(
                                   children: [
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 50, bottom: 25),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.width -
                                               10,
-                                          decoration: BoxDecoration(
-                                              borderRadius: const BorderRadius
-                                                      .only(
-                                                  topLeft: Radius.circular(
-                                                      Dimensions
-                                                          .paddingSizeDefault),
-                                                  bottomLeft: Radius.circular(
-                                                      Dimensions
-                                                          .paddingSizeDefault)),
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSecondaryContainer),
-                                        )),
+                                      decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(
+                                                  Dimensions
+                                                      .paddingSizeDefault),
+                                              bottomLeft: Radius.circular(
+                                                  Dimensions
+                                                      .paddingSizeDefault)),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondaryContainer),
+                                    ),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -369,13 +446,12 @@ class _HomePageState extends State<HomePage> {
                                           child: Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 20,
-                                                  left: 50,
+                                                  left: 10,
                                                   bottom: Dimensions
                                                       .paddingSizeSmall),
                                               child: TitleRow(
-                                                  title: getTranslated(
-                                                      'featured_products',
-                                                      context),
+                                                  title:
+                                                      'MAIDC Certified Products',
                                                   onTap: () => Navigator.push(
                                                       context,
                                                       MaterialPageRoute(

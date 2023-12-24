@@ -206,6 +206,10 @@ class AppConstants {
   static const String topic = 'sixvalley';
   static const String userAddress = 'user_address';
 
+  //Weather Apis
+
+  static const String weatherUri = 'https://api.open-meteo.com/v1/forecast';
+
   static List<LanguageModel> languages = [
     LanguageModel(
         imageUrl: Images.en,

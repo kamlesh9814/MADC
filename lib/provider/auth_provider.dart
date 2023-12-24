@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/body/login_model.dart';
@@ -6,12 +8,15 @@ import 'package:flutter_sixvalley_ecommerce/data/model/response/base/api_respons
 import 'package:flutter_sixvalley_ecommerce/data/model/response/base/error_response.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/response/response_model.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/response/social_login_model.dart';
+import 'package:flutter_sixvalley_ecommerce/data/model/response/weather.dart';
 import 'package:flutter_sixvalley_ecommerce/data/repository/auth_repo.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/order_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/show_custom_snakbar.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -20,10 +25,57 @@ class AuthProvider with ChangeNotifier {
 
   bool _isLoading = false;
   bool? _isRemember = false;
+
+  bool? isWeatherLoading = false;
   int _selectedIndex = 0;
   int get selectedIndex => _selectedIndex;
 
   String countryDialCode = '+91';
+
+  WeatherData? _weatherData;
+  WeatherData? get weatherData => _weatherData;
+
+  getWeatherData() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      // Request location permission
+      permission = await Geolocator.requestPermission();
+    }
+
+    if (permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always) {
+      // Permission granted, fetch current location
+      var location = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
+      isWeatherLoading = true;
+      ApiResponse apiResponse = await authRepo!.getWeather(
+        location.latitude,
+        location.longitude,
+      );
+      // lat and long
+      log('Lat ${location.latitude} Long ${location.longitude}');
+      log('weather response ${apiResponse.response?.realUri}');
+
+      log('weather response ${apiResponse.response!.data}');
+
+      isWeatherLoading = false;
+      if (apiResponse.response != null &&
+          apiResponse.response!.statusCode == 200) {
+        _weatherData = WeatherData.fromJson(apiResponse.response!.data);
+        notifyListeners();
+        log('weather response ${_weatherData!.current!.interval!}');
+      } else {
+        ApiChecker.checkApi(apiResponse);
+      }
+
+      notifyListeners();
+    } else {
+      print('Location permission not granted');
+    }
+  }
+
   void setCountryCode(String countryCode, {bool notify = true}) {
     countryDialCode = countryDialCode;
     if (notify) {
