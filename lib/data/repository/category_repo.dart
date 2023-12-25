@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/response/base/api_response.dart';
@@ -9,16 +11,20 @@ class CategoryRepo {
 
   Future<ApiResponse> getCategoryList() async {
     try {
-      final response = await dioClient!.get(
-        AppConstants.categoriesUri);
+      final response = await dioClient!.get(AppConstants.categoriesUri);
+
+      log(response.realUri.toString());
+      log(response.data.toString());
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
+
   Future<ApiResponse> getSellerWiseCategoryList(int sellerId) async {
     try {
-      final response = await dioClient!.get('${AppConstants.sellerWiseCategoryList}$sellerId');
+      final response = await dioClient!
+          .get('${AppConstants.sellerWiseCategoryList}$sellerId');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
