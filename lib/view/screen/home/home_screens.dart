@@ -340,7 +340,10 @@ class _HomePageState extends State<HomePage> {
                                   builder: (_) => const AllCategoryScreen()))),
                     ),
                     const SizedBox(height: Dimensions.paddingSizeSmall),
-                    const CategoryView(isHomePage: true),
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: CategoryView(isHomePage: true),
+                    ),
 
                     // Featured Deal
 

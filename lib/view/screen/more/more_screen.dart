@@ -436,8 +436,8 @@ class SquareButton extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            width: 120,
-            height: 90,
+            width: 80,
+            height: 60,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Provider.of<ThemeProvider>(context).darkTheme
