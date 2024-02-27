@@ -12,9 +12,9 @@ import 'package:flutter_sixvalley_ecommerce/view/screen/product/product_details_
 import 'package:flutter_sixvalley_ecommerce/view/screen/product/widget/favourite_button.dart';
 import 'package:provider/provider.dart';
 
-class ProductWidget extends StatelessWidget {
+class MaidcProductWidget extends StatelessWidget {
   final Product productModel;
-  const ProductWidget({Key? key, required this.productModel}) : super(key: key);
+  const MaidcProductWidget({Key? key, required this.productModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,7 @@ class ProductWidget extends StatelessWidget {
         productModel.rating != null && productModel.rating!.isNotEmpty
             ? productModel.rating![0].average!
             : "0";
+
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -138,7 +139,22 @@ class ProductWidget extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal:20),
+                padding: EdgeInsets.symmetric(horizontal:8,vertical: 4),
+                decoration:
+                 BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(
+                      10
+                    ),bottomRight:Radius.circular(10)),
+                    color: ColorResources.getPrimary(context)),
+                child: Center(
+                  child: Text('MAIDC Certified',
+                      style: textRegular.copyWith(
+                          color: Theme.of(context).highlightColor,
+                          fontSize: Dimensions.fontSizeSmall)),
+                ))
           ]),
 
           // Off

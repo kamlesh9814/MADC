@@ -42,12 +42,15 @@ import 'package:flutter_sixvalley_ecommerce/view/screen/home/widget/products_vie
 import 'package:flutter_sixvalley_ecommerce/view/screen/flashdeal/flash_deal_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/home/widget/recommended_product_view.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/home/widget/search_widget_home_page.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/home/widget/special_category_view.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/home/widget/top_seller_view.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/product/view_all_product_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/search/search_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/shop/all_shop_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../tawk_chat_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -122,6 +125,13 @@ class _HomePageState extends State<HomePage> {
       getTranslated('discounted_product', context)
     ];
     return Scaffold(
+      floatingActionButton: Container(
+        padding: const EdgeInsets.all(3),
+        decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color:Colors.amber
+        ),
+        child: IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TawkChatScreen())), icon: const Icon(Icons.chat))),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: RefreshIndicator(
@@ -139,9 +149,17 @@ class _HomePageState extends State<HomePage> {
                 centerTitle: false,
                 automaticallyImplyLeading: false,
                 backgroundColor: Theme.of(context).highlightColor,
-                title: Image.asset(
-                  Images.logoWithNameImage,
-                  height: 60,
+                title: Row(
+                  children: [
+                    Image.asset(Images.logoWithNameImage,
+                        height: 60, width: 80),
+                    const SizedBox(width: 3),
+                    Flexible(
+                        child: Image.asset(
+                      Images.maidcLogo,
+                      height: 70,
+                    )),
+                  ],
                 ),
                 actions: const [
                   CartWidgetHomePage(),
@@ -339,14 +357,26 @@ class _HomePageState extends State<HomePage> {
                               MaterialPageRoute(
                                   builder: (_) => const AllCategoryScreen()))),
                     ),
-                    const SizedBox(height: Dimensions.paddingSizeSmall),
-                    Padding(
-                      padding: const EdgeInsets.all(6.0),
+                    const SizedBox(height: 2),
+                    const Padding(
+                      padding: EdgeInsets.all(6.0),
                       child: CategoryView(isHomePage: true),
                     ),
 
-                    // Featured Deal
+                    // Special Category
+                    const Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: Dimensions.paddingSizeExtraExtraSmall,
+                            vertical: 1),
+                        child: TitleRow(title: 'Special Categories'
+                            // getTranslated('CATEGORY', context),
+                            )),
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: SpecialCategoryView(isHomePage: true),
+                    ),
 
+                    // Featured Deals
                     Consumer<FeaturedDealProvider>(
                       builder: (context, featuredDealProvider, child) {
                         return featuredDealProvider.featuredDealProductList !=
@@ -357,7 +387,7 @@ class _HomePageState extends State<HomePage> {
                                     Container(
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 150,
+                                        height: 140,
                                         color: Provider.of<ThemeProvider>(
                                                     context,
                                                     listen: false)
@@ -413,7 +443,7 @@ class _HomePageState extends State<HomePage> {
                           : const SizedBox();
                     }),
 
-                    // Featured Products
+                    // maidc Featured Products
                     Consumer<ProductProvider>(builder: (context, featured, _) {
                       return featured.featuredProductList != null
                           ? featured.featuredProductList!.isNotEmpty
@@ -423,7 +453,7 @@ class _HomePageState extends State<HomePage> {
                                       width: MediaQuery.of(context).size.width,
                                       height:
                                           MediaQuery.of(context).size.width -
-                                              10,
+                                              26,
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.only(
                                               topLeft: Radius.circular(
@@ -448,7 +478,7 @@ class _HomePageState extends State<HomePage> {
                                                   .paddingSizeExtraSmall),
                                           child: Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 20,
+                                                  top: 4,
                                                   left: 10,
                                                   bottom: Dimensions
                                                       .paddingSizeSmall),
@@ -465,9 +495,8 @@ class _HomePageState extends State<HomePage> {
                                                                           .featuredProduct))))),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom:
-                                                  Dimensions.homePagePadding),
+                                          padding:
+                                              const EdgeInsets.only(bottom: 1),
                                           child: FeaturedProductView(
                                             scrollController: _scrollController,
                                             isHome: true,

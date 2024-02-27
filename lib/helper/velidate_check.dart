@@ -34,7 +34,7 @@ class ValidateCheck{
       return getTranslated(getTranslated('minimum_password_is_8_character', Get.context!), Get.context!);
     }
     return null;
-  }
+  } 
   static String? validateConfirmPassword(String? value, String? password) {
     if (value == null || value.isEmpty) {
       return getTranslated('confirm_password_must_be_required', Get.context!);

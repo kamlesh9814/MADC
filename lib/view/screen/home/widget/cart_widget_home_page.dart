@@ -19,6 +19,7 @@ class CartWidgetHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Consumer<NotificationProvider>(
             builder: (context, notificationProvider, _) {
@@ -52,7 +53,7 @@ class CartWidgetHomePage extends StatelessWidget {
         }),
 
         Padding(
-          padding: const EdgeInsets.only(right: 12.0),
+          padding: const EdgeInsets.only(right: 2.0),
           child: IconButton(
             onPressed: () => Navigator.push(
                 context, MaterialPageRoute(builder: (_) => const CartScreen())),
@@ -82,7 +83,7 @@ class CartWidgetHomePage extends StatelessWidget {
 
         // Wish list button and count with stack similar to the cart icon
         Padding(
-          padding: const EdgeInsets.only(right: 12.0),
+          padding: const EdgeInsets.only(right: 2.0),
           child: IconButton(
             onPressed: () => Navigator.push(context,
                 MaterialPageRoute(builder: (_) => const WishListScreen())),

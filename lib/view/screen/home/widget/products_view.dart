@@ -9,6 +9,8 @@ import 'package:flutter_sixvalley_ecommerce/view/basewidget/product_widget.dart'
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../../basewidget/maidc_product_widget.dart';
+
 class ProductView extends StatelessWidget {
   final bool isHomePage;
   final ProductType productType;
@@ -79,7 +81,10 @@ class ProductView extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-              return ProductWidget(productModel: productList![index]);
+              return 
+             productType == ProductType.featuredProduct ? 
+             MaidcProductWidget(productModel: productList![index]) :
+              ProductWidget(productModel: productList![index]);
             },
           ) : const NoInternetOrDataScreen(isNoInternet: false): ProductShimmer(isHomePage: isHomePage ,isEnabled: prodProvider.firstLoading),
 

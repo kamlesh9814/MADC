@@ -71,6 +71,7 @@ dependencies:
   card_swiper: ^3.0.1
   flutter_native_splash:
   flutter_gallery_3d: ^1.1.1
+  flutter_tawk: ^0.1.0
 
 dev_dependencies:
   flutter_lints: ^2.0.1

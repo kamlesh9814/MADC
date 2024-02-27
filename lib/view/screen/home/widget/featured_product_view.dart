@@ -11,6 +11,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
+import '../../../basewidget/maidc_product_widget.dart';
+
 class FeaturedProductView extends StatelessWidget {
   final ScrollController? scrollController;
   final bool isHome;
@@ -37,7 +39,6 @@ class FeaturedProductView extends StatelessWidget {
                     enlargeFactor: 0.3,
                     padEnds: false,
                     enlargeCenterPage: true,
-
                     disableCenter: true,
                     onPageChanged: (index, reason) {
                       prodProvider.setFeaturedIndex(index);
@@ -45,8 +46,7 @@ class FeaturedProductView extends StatelessWidget {
                   ),
                   itemCount: productList.length,
                   itemBuilder: (context, index, _) {
-
-                    return ProductWidget(productModel: productList![index]);
+                    return MaidcProductWidget(productModel: productList![index]);
                   },
                 ),
               ) :
@@ -58,7 +58,7 @@ class FeaturedProductView extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  return ProductWidget(productModel: productList![index]);
+                  return MaidcProductWidget(productModel: productList![index]);
                 },
               ): const SizedBox.shrink() : ProductShimmer(isHomePage: true ,isEnabled: prodProvider.firstFeaturedLoading),
 
