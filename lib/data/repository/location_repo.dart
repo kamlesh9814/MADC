@@ -10,19 +10,16 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class LocationRepo {
   final DioClient? dioClient;
   final SharedPreferences? sharedPreferences;
 
   LocationRepo({this.dioClient, this.sharedPreferences});
 
-
-
-
   Future<ApiResponse> getDeliveryRestrictedCountryList() async {
     try {
-      final response = await dioClient!.get(AppConstants.deliveryRestrictedCountryList);
+      final response =
+          await dioClient!.get(AppConstants.deliveryRestrictedCountryList);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -31,7 +28,8 @@ class LocationRepo {
 
   Future<ApiResponse> getDeliveryRestrictedZipList() async {
     try {
-      final response = await dioClient!.get(AppConstants.deliveryRestrictedZipList);
+      final response =
+          await dioClient!.get(AppConstants.deliveryRestrictedZipList);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -40,24 +38,24 @@ class LocationRepo {
 
   Future<ApiResponse> getDeliveryRestrictedZipBySearch(String zipcode) async {
     try {
-      final response = await dioClient!.get('${AppConstants.deliveryRestrictedZipList}?search=$zipcode');
+      final response = await dioClient!
+          .get('${AppConstants.deliveryRestrictedZipList}?search=$zipcode');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
 
-  Future<ApiResponse> getDeliveryRestrictedCountryBySearch(String country) async {
+  Future<ApiResponse> getDeliveryRestrictedCountryBySearch(
+      String country) async {
     try {
-      final response = await dioClient!.get('${AppConstants.deliveryRestrictedCountryList}?search=$country');
+      final response = await dioClient!
+          .get('${AppConstants.deliveryRestrictedCountryList}?search=$country');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
-
-
-
 
   Future<ApiResponse> addAddress(AddressModel addressModel) async {
     if (kDebugMode) {
@@ -74,10 +72,11 @@ class LocationRepo {
     }
   }
 
-  Future<ApiResponse> updateAddress(AddressModel addressModel, int? addressId) async {
+  Future<ApiResponse> updateAddress(
+      AddressModel addressModel, int? addressId) async {
     try {
-      Response response = await dioClient!.post(
-        '${AppConstants.updateAddressUri}$addressId',
+      Response response = await dioClient!.put(
+        AppConstants.updateAddressUri,
         data: addressModel.toJson(),
       );
       return ApiResponse.withSuccess(response);
@@ -86,11 +85,8 @@ class LocationRepo {
     }
   }
 
-
-
-
   List<LabelAsModel> getAllAddressType({BuildContext? context}) {
-    List<LabelAsModel> labelAsList= [
+    List<LabelAsModel> labelAsList = [
       LabelAsModel('home', Images.homeImage),
       LabelAsModel('office', Images.officeImage),
       LabelAsModel('others', Images.address),
@@ -101,7 +97,8 @@ class LocationRepo {
 
   Future<ApiResponse> getAddressFromGeocode(LatLng latLng) async {
     try {
-      Response response = await dioClient!.get('${AppConstants.geocodeUri}?lat=${latLng.latitude}&lng=${latLng.longitude}');
+      Response response = await dioClient!.get(
+          '${AppConstants.geocodeUri}?lat=${latLng.latitude}&lng=${latLng.longitude}');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -110,7 +107,8 @@ class LocationRepo {
 
   Future<ApiResponse> searchLocation(String text) async {
     try {
-      Response response = await dioClient!.get('${AppConstants.searchLocationUri}?search_text=$text');
+      Response response = await dioClient!
+          .get('${AppConstants.searchLocationUri}?search_text=$text');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -119,16 +117,19 @@ class LocationRepo {
 
   Future<ApiResponse> getPlaceDetails(String? placeID) async {
     try {
-      Response response = await dioClient!.get('${AppConstants.placeDetailsUri}?placeid=$placeID');
+      Response response = await dioClient!
+          .get('${AppConstants.placeDetailsUri}?placeid=$placeID');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
 
-  Future<ApiResponse> getDistanceInMeter(LatLng originLatLng, LatLng destinationLatLng) async {
+  Future<ApiResponse> getDistanceInMeter(
+      LatLng originLatLng, LatLng destinationLatLng) async {
     try {
-      Response response = await dioClient!.get('${AppConstants.distanceMatrixUri}'
+      Response response = await dioClient!.get(
+          '${AppConstants.distanceMatrixUri}'
           '?origin_lat=${originLatLng.latitude}&origin_lng=${originLatLng.longitude}'
           '&destination_lat=${destinationLatLng.latitude}&destination_lng=${destinationLatLng.longitude}');
       return ApiResponse.withSuccess(response);
@@ -136,11 +137,9 @@ class LocationRepo {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
-
 }
 
-
-class LabelAsModel{
+class LabelAsModel {
   String title;
   String icon;
 

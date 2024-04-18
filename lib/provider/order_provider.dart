@@ -20,7 +20,6 @@ import 'package:flutter_sixvalley_ecommerce/provider/auth_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/show_custom_snakbar.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/cart/cart_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/payment/digital_payment_order_place.dart';
-import 'package:flutter_sixvalley_ecommerce/view/screen/payment/payment_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -149,19 +148,20 @@ class OrderProvider with ChangeNotifier {
   final TextEditingController orderNoteController = TextEditingController();
 
   List<String> inputValueList = [];
-  Future<void> placeOrder(
-      {required Function callback,
-      String? addressID,
-      String? couponCode,
-      String? couponAmount,
-      String? billingAddressId,
-      String? orderNote,
-      String? transactionId,
-      String? paymentNote,
-      int? id,
-      String? name,
-      bool isfOffline = false,
-      bool wallet = false}) async {
+  Future<void> placeOrder({
+    required Function callback,
+    String? addressID,
+    String? couponCode,
+    String? couponAmount,
+    String? billingAddressId,
+    String? orderNote,
+    String? transactionId,
+    String? paymentNote,
+    int? id,
+    String? name,
+    bool isfOffline = false,
+    bool wallet = false,
+  }) async {
     for (TextEditingController textEditingController
         in inputFieldControllerList) {
       inputValueList.add(textEditingController.text.trim());
@@ -180,7 +180,8 @@ class OrderProvider with ChangeNotifier {
             inputValueList,
             offlineMethodSelectedId,
             offlineMethodSelectedName,
-            paymentNote)
+            paymentNote,
+          )
         : wallet
             ? apiResponse = await orderRepo!.walletPaymentPlaceOrder(addressID,
                 couponCode, couponAmount, billingAddressId, orderNote)

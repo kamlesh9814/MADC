@@ -133,7 +133,7 @@ class AppConstants {
   static const String sellerWiseCategoryList = '/api/v1/categories?seller_id=';
   static const String sellerWiseBrandList = '/api/v1/brands?seller_id=';
   //address
-  static const String updateAddressUri = '/api/v1/customer/address/update/';
+  static const String updateAddressUri = '/api/v1/customer/address/update';
   static const String geocodeUri = '/api/v1/mapapi/geocode-api';
   static const String searchLocationUri =
       '/api/v1/mapapi/place-api-autocomplete';

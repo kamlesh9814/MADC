@@ -98,13 +98,20 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
         context);
     if (widget.isEnableUpdate && widget.address != null) {
       _updateAddress = false;
-      Provider.of<LocationProvider>(context, listen: false).updatePosition(
-          CameraPosition(
-              target: LatLng(double.parse(widget.address!.latitude!),
-                  double.parse(widget.address!.longitude!))),
-          true,
-          widget.address!.address,
-          context);
+      _cityController.text = widget.address!.city!;
+      _zipCodeController.text = widget.address!.zip!;
+
+      if (widget.address!.latitude!.isNotEmpty &&
+          widget.address!.longitude!.isNotEmpty) {
+        Provider.of<LocationProvider>(context, listen: false).updatePosition(
+            CameraPosition(
+                target: LatLng(double.parse(widget.address!.latitude!),
+                    double.parse(widget.address!.longitude!))),
+            true,
+            widget.address!.address,
+            context);
+      }
+
       _contactPersonNameController.text =
           '${widget.address!.contactPersonName}';
       _contactPersonNumberController.text = '${widget.address!.phone}';
@@ -133,8 +140,31 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
     }
   }
 
+  updateAdress() {
+    if (widget.address != null) {
+      switch (widget.address!.addressType) {
+        case 'home':
+          Provider.of<LocationProvider>(context, listen: false)
+              .updateAddressIndex(0, false);
+          break;
+
+        case 'office':
+          Provider.of<LocationProvider>(context, listen: false)
+              .updateAddressIndex(1, false);
+          break;
+
+        default:
+          Provider.of<LocationProvider>(context, listen: false)
+              .updateAddressIndex(2, false);
+          break;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    updateAdress();
+
     return Scaffold(
       appBar: CustomAppBar(
           title: widget.isEnableUpdate
@@ -223,7 +253,11 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                               GoogleMap(
                                 mapType: MapType.normal,
                                 initialCameraPosition: CameraPosition(
-                                    target: widget.isEnableUpdate
+                                    target: widget.isEnableUpdate &&
+                                            widget.address!.latitude!
+                                                .isNotEmpty &&
+                                            widget
+                                                .address!.longitude!.isNotEmpty
                                         ? LatLng(
                                             double.parse(
                                                 widget.address!.latitude!),
@@ -704,7 +738,15 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                               .updateAddress(context,
                                                   addressModel: addressModel,
                                                   addressId: addressModel.id)
-                                              .then((value) {});
+                                              .then((value) {
+                                            if (value.isSuccess) {
+                                              Provider.of<ProfileProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .initAddressList();
+                                              Navigator.pop(context);
+                                            }
+                                          });
                                         } else if (_contactPersonNameController
                                             .text
                                             .trim()
