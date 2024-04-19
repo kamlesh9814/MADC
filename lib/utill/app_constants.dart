@@ -127,7 +127,8 @@ class AppConstants {
   static const String sellerWiseBestSellingProduct = '/api/v1/seller/';
   static const String digitalPayment = '/api/v4/digital-payment';
   static const String webPayment = '/api/v1/web-payment-request';
-  static const String webPaymentccavenueUrl = '$baseUrl/api/v1/payment/ccavenue/pay?payment_id=';
+  static const String webPaymentccavenueUrl =
+      '$baseUrl/api/v1/payment/ccavenue/pay?payment_id=';
   static const String offlinePaymentList =
       '/api/v1/customer/order/offline-payment-method-list';
   static const String sellerWiseCategoryList = '/api/v1/categories?seller_id=';
@@ -207,6 +208,9 @@ class AppConstants {
   static const String theme = 'theme';
   static const String topic = 'sixvalley';
   static const String userAddress = 'user_address';
+
+  ///
+  static const String statesDataEndpoint = 'https://countriesnow.space/api/v0.1/countries/cities';
 
   //Weather Apis
 

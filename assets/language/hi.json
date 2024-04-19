@@ -50,6 +50,7 @@
   "skip_for_now": "अभी के लिए छोड़ दे",
   "CONFIRM_YOUR_MAIL": "अपने मेल की पुष्टि करें",
   "START": "शुरू", 
+  "state_is_required" : "राज्य की आवश्यकता है",
   "update_address": "पता अपडेट करें",
   "UPDATE_ADDRESS": "पता जोड़ें",
   "ENTER_YOUR_ZIP_CODE": "अपना ज़िप कोड दर्ज करें",

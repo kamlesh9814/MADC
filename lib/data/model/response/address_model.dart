@@ -15,7 +15,8 @@ class AddressModel {
   String? longitude;
   int? isBilling;
   String? guestId;
-  String? email;
+  String? email; 
+  
 
   AddressModel(
       {this.id,
@@ -34,7 +35,8 @@ class AddressModel {
         this.longitude,
         this.isBilling,
         this.guestId,
-        this.email,
+        this.email, 
+       
       });
 
   AddressModel.fromJson(Map<String, dynamic> json) {

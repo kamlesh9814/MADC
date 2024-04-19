@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/localization_provider.dart';
+import 'package:flutter_sixvalley_ecommerce/provider/location_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/profile_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/theme_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_sixvalley_ecommerce/view/basewidget/no_internet_screen.d
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/remove_address_bottom_sheet.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/address/add_new_address_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/chat/widget/inbox_shimmer.dart';
-import 'package:flutter_sixvalley_ecommerce/view/screen/profile/update_address_screen.dart';
 import 'package:provider/provider.dart';
 
 class AddressListScreen extends StatefulWidget {

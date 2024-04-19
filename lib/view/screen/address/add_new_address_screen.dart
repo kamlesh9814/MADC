@@ -3,6 +3,7 @@ import 'package:country_currency_pickers/country.dart';
 import 'package:country_currency_pickers/country_picker_dropdown.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/data/datasource/states_data.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/response/address_model.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/response/restricted_zip_model.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/velidate_check.dart';
@@ -55,6 +56,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _zipCodeController = TextEditingController();
   final TextEditingController _countryCodeController = TextEditingController();
+
   final FocusNode _addressNode = FocusNode();
   final FocusNode _nameNode = FocusNode();
   final FocusNode _emailNode = FocusNode();
@@ -66,7 +68,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   bool _updateAddress = true;
   Address? _address;
 
-  String zip = '', country = '';
+  String zip = '', country = '', state = '';
 
   @override
   void initState() {
@@ -142,6 +144,8 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
 
   updateAdress() {
     if (widget.address != null) {
+      state = widget.address!.state??'';
+
       switch (widget.address!.addressType) {
         case 'home':
           Provider.of<LocationProvider>(context, listen: false)
@@ -519,7 +523,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                                 const EdgeInsets.symmetric(
                                                     horizontal: Dimensions
                                                         .paddingSizeDefault),
-                                            labelText: "country",
+                                            labelText: "Country",
                                             alignLabelWithHint: true,
                                             border: OutlineInputBorder(
                                                 borderRadius:
@@ -600,6 +604,56 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                         }),
                       ),
 
+                      const SizedBox(
+                          height: Dimensions.paddingSizeDefaultAddress),
+                      DropdownSearch<String>(
+                        popupProps:
+                            const PopupProps.menu(showSelectedItems: true),
+                        items: states,
+                        selectedItem: state,
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                            prefixIconConstraints: const BoxConstraints(
+                                minHeight: 40, maxWidth: 40),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: Dimensions.paddingSizeSmall),
+                              child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image.asset(
+                                    Images.country,
+                                    color: Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(.6),
+                                  )),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: Dimensions.paddingSizeDefault),
+                            labelText: "State",
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).hintColor,
+                                  width: 0.5,
+                                )),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).hintColor,
+                                    width: 0.5)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).hintColor,
+                                    width: 0.5)),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          state = value!;
+                        },
+                      ),
                       const SizedBox(
                           height: Dimensions.paddingSizeDefaultAddress),
 
@@ -693,6 +747,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                     : () {
                                         AddressModel addressModel =
                                             AddressModel(
+                                          state: state,
                                           addressType: locationProvider
                                               .addressTypeList[locationProvider
                                                   .selectAddressIndex]
@@ -747,6 +802,10 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                               Navigator.pop(context);
                                             }
                                           });
+                                        } else if (state.isEmpty) {
+                                          showCustomSnackBar(
+                                              '${getTranslated('state_is_required', context)}',
+                                              context);
                                         } else if (_contactPersonNameController
                                             .text
                                             .trim()
