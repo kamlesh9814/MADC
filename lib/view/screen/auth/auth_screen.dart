@@ -69,14 +69,12 @@ class _AuthScreenState extends State<AuthScreen>
                           shape: BoxShape.circle,
                           color: Colors.white,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(Images.splashLogo,
-                                    width: 130, height: 100)
-                              ]),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Image.asset(Images.splashLogo,
+                                width: 130, height: 100),
+                          ),
                         ),
                       ),
                     ),

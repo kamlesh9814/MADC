@@ -5,7 +5,7 @@ import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/logging_i
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DioClient {
+class  DioClient {
   final String baseUrl;
   final LoggingInterceptor loggingInterceptor;
   final SharedPreferences sharedPreferences;

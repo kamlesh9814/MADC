@@ -28,9 +28,10 @@ class SpecialCategoryView extends StatelessWidget {
     return Consumer<CategoryProvider>(
       builder: (context, categoryProvider, child) {
         return SizedBox(
-          height: 180,
+          height: 190,
           child: ListView.builder(
-            physics:const BouncingScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
+            primary: true,
             padding: EdgeInsets.zero,
             scrollDirection: Axis.horizontal,
             itemCount: _scName.length,
@@ -40,12 +41,16 @@ class SpecialCategoryView extends StatelessWidget {
                   padding: const EdgeInsets.all(6.0),
                   child: Container(
                     width: 200,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     child: Column(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset('assets/images/${_scImage[index]}',fit: BoxFit.cover,height:150)),
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                                'assets/images/${_scImage[index]}',
+                                fit: BoxFit.cover,
+                                height: 150)),
                         Text(_scName[index])
                       ],
                     ),
