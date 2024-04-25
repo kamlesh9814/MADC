@@ -10,28 +10,26 @@ class ProductRepo {
   final DioClient? dioClient;
   ProductRepo({required this.dioClient});
 
-  Future<ApiResponse> getLatestProductList(BuildContext context, String offset, ProductType productType, String? title) async {
+  Future<ApiResponse> getLatestProductList(BuildContext context, String offset,
+      ProductType productType, String? title) async {
     late String endUrl;
 
-     if(productType == ProductType.bestSelling){
+    if (productType == ProductType.bestSelling) {
       endUrl = AppConstants.bestSellingProductUri;
       title = getTranslated('best_selling', context);
-    }
-    else if(productType == ProductType.newArrival){
+    } else if (productType == ProductType.newArrival) {
       endUrl = AppConstants.newArrivalProductUri;
-      title = getTranslated('new_arrival',context);
-    }
-    else if(productType == ProductType.topProduct){
+      title = getTranslated('new_arrival', context);
+    } else if (productType == ProductType.topProduct) {
       endUrl = AppConstants.topProductUri;
       title = getTranslated('top_product', context);
-    }else if(productType == ProductType.discountedProduct){
-       endUrl = AppConstants.discountedProductUri;
-       title = getTranslated('discounted_product', context);
-     }
+    } else if (productType == ProductType.discountedProduct) {
+      endUrl = AppConstants.discountedProductUri;
+      title = getTranslated('discounted_product', context);
+    }
 
     try {
-      final response = await dioClient!.get(
-        endUrl+offset);
+      final response = await dioClient!.get(endUrl + offset);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -39,17 +37,30 @@ class ProductRepo {
   }
 
   //Seller Products
-  Future<ApiResponse> getSellerProductList(String sellerId, String offset, [String search = '', String? categoryIds, String? brandIds]) async {
+  Future<ApiResponse> getSellerProductList(String sellerId, String offset,
+      [String search = '', String? categoryIds, String? brandIds]) async {
     try {
       final response = await dioClient!.get(
-        '${AppConstants.sellerProductUri}$sellerId/products?guest_id=1&limit=10&offset=$offset&search=$search&category=$categoryIds&brand_ids=$brandIds');
+          '${AppConstants.sellerProductUri}$sellerId/products?guest_id=1&limit=10&offset=$offset&search=$search&category=$categoryIds&brand_ids=$brandIds');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
 
-  Future<ApiResponse> getSellerWiseBestSellingProductList(String sellerId, String offset) async {
+  //Special Products
+  Future<ApiResponse> getSpecialCategoryProducts(int categoryID) async {
+    try {
+      final response = await dioClient!
+          .get('${AppConstants.getSpecialProductURL}/$categoryID');
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+
+  Future<ApiResponse> getSellerWiseBestSellingProductList(
+      String sellerId, String offset) async {
     try {
       final response = await dioClient!.get(
           '${AppConstants.sellerWiseBestSellingProduct}$sellerId/seller-best-selling-products?guest_id=1&limit=10&offset=$offset');
@@ -59,7 +70,8 @@ class ProductRepo {
     }
   }
 
-  Future<ApiResponse> getSellerWiseFeaturedProductList(String sellerId, String offset) async {
+  Future<ApiResponse> getSellerWiseFeaturedProductList(
+      String sellerId, String offset) async {
     try {
       final response = await dioClient!.get(
           '${AppConstants.sellerWiseBestSellingProduct}$sellerId/seller-featured-product?guest_id=1&limit=10&offset=$offset');
@@ -69,8 +81,8 @@ class ProductRepo {
     }
   }
 
-
-  Future<ApiResponse> getSellerWiseRecomendedProductList(String sellerId, String offset) async {
+  Future<ApiResponse> getSellerWiseRecomendedProductList(
+      String sellerId, String offset) async {
     try {
       final response = await dioClient!.get(
           '${AppConstants.sellerWiseBestSellingProduct}$sellerId/seller-recommended-products?guest_id=1&limit=10&offset=$offset');
@@ -80,12 +92,13 @@ class ProductRepo {
     }
   }
 
-  Future<ApiResponse> getBrandOrCategoryProductList(bool isBrand, String id) async {
+  Future<ApiResponse> getBrandOrCategoryProductList(
+      bool isBrand, String id) async {
     try {
       String uri;
-      if(isBrand){
+      if (isBrand) {
         uri = '${AppConstants.brandProductUri}$id';
-      }else {
+      } else {
         uri = '${AppConstants.categoryProductUri}$id';
       }
       final response = await dioClient!.get(uri);
@@ -95,34 +108,32 @@ class ProductRepo {
     }
   }
 
-
-
   Future<ApiResponse> getRelatedProductList(String id) async {
     try {
-      final response = await dioClient!.get('${AppConstants.relatedProductUri}$id?guest_id=1');
+      final response = await dioClient!
+          .get('${AppConstants.relatedProductUri}$id?guest_id=1');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
-
 
   Future<ApiResponse> getFeaturedProductList(String offset) async {
     try {
       final response = await dioClient!.get(
-        AppConstants.featuredProductUri+offset,);
+        AppConstants.featuredProductUri + offset,
+      );
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
 
-
-
   Future<ApiResponse> getLProductList(String offset) async {
     try {
       final response = await dioClient!.get(
-        AppConstants.latestProductUri+offset,);
+        AppConstants.latestProductUri + offset,
+      );
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -137,6 +148,7 @@ class ProductRepo {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
+
   Future<ApiResponse> getMostDemandedProduct() async {
     try {
       final response = await dioClient!.get(AppConstants.mostDemandedProduct);
@@ -148,7 +160,8 @@ class ProductRepo {
 
   Future<ApiResponse> getShopAgainFromRecentStoreList() async {
     try {
-      final response = await dioClient!.get(AppConstants.shopAgainFromRecentStore);
+      final response =
+          await dioClient!.get(AppConstants.shopAgainFromRecentStore);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -175,11 +188,11 @@ class ProductRepo {
 
   Future<ApiResponse> getMostSearchingProductList(int offset) async {
     try {
-      final response = await dioClient!.get("${AppConstants.mostSearching}?guest_id=1&limit=10&offset=$offset");
+      final response = await dioClient!.get(
+          "${AppConstants.mostSearching}?guest_id=1&limit=10&offset=$offset");
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
-
 }

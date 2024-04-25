@@ -16,86 +16,104 @@ class ProductView extends StatelessWidget {
   final ProductType productType;
   final ScrollController? scrollController;
   final String? sellerId;
-  const ProductView({Key? key, required this.isHomePage, required this.productType, this.scrollController, this.sellerId}) : super(key: key);
+  const ProductView(
+      {Key? key,
+      required this.isHomePage,
+      required this.productType,
+      this.scrollController,
+      this.sellerId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
     int offset = 1;
     scrollController?.addListener(() {
-      if(scrollController!.position.maxScrollExtent == scrollController!.position.pixels
-          && Provider.of<ProductProvider>(context, listen: false).latestProductList!.isNotEmpty
-          && !Provider.of<ProductProvider>(context, listen: false).filterIsLoading) {
+      if (scrollController!.position.maxScrollExtent ==
+              scrollController!.position.pixels &&
+          Provider.of<ProductProvider>(context, listen: false)
+              .latestProductList!
+              .isNotEmpty &&
+          !Provider.of<ProductProvider>(context, listen: false)
+              .filterIsLoading) {
         late int pageSize;
-        if(productType == ProductType.bestSelling || productType == ProductType.topProduct || productType == ProductType.newArrival ||productType == ProductType.discountedProduct ) {
-          pageSize = (Provider.of<ProductProvider>(context, listen: false).latestPageSize!/10).ceil();
+        if (productType == ProductType.bestSelling ||
+            productType == ProductType.topProduct ||
+            productType == ProductType.newArrival ||
+            productType == ProductType.discountedProduct) {
+          pageSize = (Provider.of<ProductProvider>(context, listen: false)
+                      .latestPageSize! /
+                  10)
+              .ceil();
           offset = Provider.of<ProductProvider>(context, listen: false).lOffset;
-        }
-
-        else if(productType == ProductType.justForYou){
-
-        }
-        if(offset < pageSize) {
+        } else if (productType == ProductType.justForYou) {}
+        if (offset < pageSize) {
           offset++;
-          Provider.of<ProductProvider>(context, listen: false).showBottomLoader();
-          if(productType == ProductType.sellerProduct) {
-            Provider.of<ProductProvider>(context, listen: false).getSellerProductList(sellerId!, offset, context, reload: false);
-          }else{
-            Provider.of<ProductProvider>(context, listen: false).getLatestProductList(offset);
+          Provider.of<ProductProvider>(context, listen: false)
+              .showBottomLoader();
+          if (productType == ProductType.sellerProduct) {
+            Provider.of<ProductProvider>(context, listen: false)
+                .getSellerProductList(sellerId!, offset, context,
+                    reload: false);
+          } else {
+            Provider.of<ProductProvider>(context, listen: false)
+                .getLatestProductList(offset);
           }
-
-        }else{
-
-        }
+        } else {}
       }
-
     });
 
     return Consumer<ProductProvider>(
       builder: (context, prodProvider, child) {
         List<Product>? productList = [];
-        if(productType == ProductType.latestProduct) {
+        if (productType == ProductType.latestProduct) {
           productList = prodProvider.lProductList;
-        }
-        else if(productType == ProductType.featuredProduct) {
+        } else if (productType == ProductType.featuredProduct) {
           productList = prodProvider.featuredProductList;
-        }else if(productType == ProductType.topProduct) {
+        } else if (productType == ProductType.topProduct) {
           productList = prodProvider.latestProductList;
-        }else if(productType == ProductType.bestSelling) {
+        } else if (productType == ProductType.bestSelling) {
           productList = prodProvider.latestProductList;
-        }else if(productType == ProductType.newArrival) {
+        } else if (productType == ProductType.newArrival) {
           productList = prodProvider.latestProductList;
-        }else if(productType == ProductType.justForYou) {
+        } else if (productType == ProductType.justForYou) {
           productList = prodProvider.justForYouProduct;
         }
 
         return Column(children: [
-
-
-          !prodProvider.filterFirstLoading ? (productList != null && productList.isNotEmpty) ?
-          MasonryGridView.count(
-            itemCount: isHomePage? productList.length>4?
-            4:productList.length:productList.length,
-            crossAxisCount: 2,
-            padding: const EdgeInsets.all(0),
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return 
-             productType == ProductType.featuredProduct ? 
-             MaidcProductWidget(productModel: productList![index]) :
-              ProductWidget(productModel: productList![index]);
-            },
-          ) : const NoInternetOrDataScreen(isNoInternet: false): ProductShimmer(isHomePage: isHomePage ,isEnabled: prodProvider.firstLoading),
-
-          prodProvider.filterIsLoading ? Center(child: Padding(
-            padding: const EdgeInsets.all(Dimensions.iconSizeExtraSmall),
-            child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
-          )) : const SizedBox.shrink(),
-
+          !prodProvider.filterFirstLoading
+              ? (productList != null && productList.isNotEmpty)
+                  ? MasonryGridView.count(
+                      itemCount: isHomePage
+                          ? productList.length > 4
+                              ? 4
+                              : productList.length
+                          : productList.length,
+                      crossAxisCount: 2,
+                      padding: const EdgeInsets.all(0),
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return productType == ProductType.featuredProduct
+                            ? MaidcProductWidget(
+                                productModel: productList![index])
+                            : ProductWidget(
+                                productModel: productList![index]);
+                      },
+                    )
+                  : const NoInternetOrDataScreen(isNoInternet: false)
+              : ProductShimmer(
+                  isHomePage: isHomePage, isEnabled: prodProvider.firstLoading),
+          prodProvider.filterIsLoading
+              ? Center(
+                  child: Padding(
+                  padding: const EdgeInsets.all(Dimensions.iconSizeExtraSmall),
+                  child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).primaryColor)),
+                ))
+              : const SizedBox.shrink(),
         ]);
       },
     );
   }
 }
-

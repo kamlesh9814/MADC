@@ -16,11 +16,16 @@ class CategoryView extends StatelessWidget {
       builder: (context, categoryProvider, child) {
         return categoryProvider.categoryList.isNotEmpty
             ? Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: SizedBox(
-                  height: 400,
+                padding: const EdgeInsets.only(top: 16),
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxHeight: 1100,
+                  ),
                   child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    physics: const NeverScrollableScrollPhysics(),
+                    primary: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 1.45,
                     ),

@@ -55,6 +55,7 @@ class AppConstants {
   static const String orderPlaceUri = '/api/v1/customer/order/place';
   static const String sellerUri = '/api/v1/seller?seller_id=';
   static const String sellerProductUri = '/api/v1/seller/';
+  static const String getSpecialProductURL = '/api/v1/products/link_product';
   static const String topSeller = '/api/v1/seller/top';
   static const String trackingUri = '/api/v1/order/track?order_id=';
   static const String forgetPasswordUri = '/api/v1/auth/forgot-password';
@@ -210,7 +211,8 @@ class AppConstants {
   static const String userAddress = 'user_address';
 
   ///
-  static const String statesDataEndpoint = 'https://countriesnow.space/api/v0.1/countries/cities';
+  static const String statesDataEndpoint =
+      'https://countriesnow.space/api/v0.1/countries/cities';
 
   //Weather Apis
 

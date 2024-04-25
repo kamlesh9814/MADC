@@ -14,18 +14,27 @@ class RelatedProductView extends StatelessWidget {
     return Consumer<ProductProvider>(
       builder: (context, prodProvider, child) {
         return Column(children: [
-
-          prodProvider.relatedProductList != null ? prodProvider.relatedProductList!.isNotEmpty ?
-          MasonryGridView.count(
-            crossAxisCount: 2,
-            itemCount: prodProvider.relatedProductList!.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (BuildContext context, int index) {
-              return ProductWidget(productModel: prodProvider.relatedProductList![index]);
-            },
-          ):  Center(child: Text(getTranslated('no_related_product', context)??"")) :
-          ProductShimmer(isHomePage: false, isEnabled: Provider.of<ProductProvider>(context).relatedProductList == null),
+          prodProvider.relatedProductList != null
+              ? prodProvider.relatedProductList!.isNotEmpty
+                  ? MasonryGridView.count(
+                      crossAxisCount: 2,
+                      itemCount: prodProvider.relatedProductList!.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProductWidget(
+                            productModel:
+                                prodProvider.relatedProductList![index]);
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                          getTranslated('no_related_product', context) ?? ""))
+              : ProductShimmer(
+                  isHomePage: false,
+                  isEnabled: Provider.of<ProductProvider>(context)
+                          .relatedProductList ==
+                      null),
         ]);
       },
     );
