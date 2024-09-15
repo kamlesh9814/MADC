@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/provider/category_provider.dart';
-import 'package:flutter_sixvalley_ecommerce/view/screen/home/widget/category_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/view/screen/product/brand_and_category_product_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/product/special_category_product_view_all_screen.dart';
-import 'package:provider/provider.dart';
-
-import '../shimmer/category_shimmer.dart';
 
 class SpecialCategory {
   final String name;
   final String image;
   final int? id;
-
   SpecialCategory({required this.id, required this.image, required this.name});
 }
 
@@ -24,8 +17,9 @@ class SpecialCategoryView extends StatelessWidget {
     SpecialCategory(id: 6, image: 'bachat.jpeg', name: 'Mahila Bachat Gat'),
     SpecialCategory(id: null, image: 'special.jpeg', name: 'Special Category'),
     SpecialCategory(id: 11, image: 'prison.jpeg', name: 'Prison'),
-    SpecialCategory(
-        id: 16, image: 'government.jpeg', name: 'Government Organization'),
+    SpecialCategory(id: 1, image: 'millet.jpeg', name: 'Millet'),
+    SpecialCategory(id: 16, image: 'government.jpeg', name: 'Government Organization'),
+
   ];
 
   @override

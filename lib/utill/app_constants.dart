@@ -174,6 +174,7 @@ class AppConstants {
       '/api/v1/customer/compare/clear-all';
   static const String replaceFromCompareList =
       '/api/v1/customer/compare/product-replace';
+  static const String checkTatURl = '/api/v1/check-tat';
 
   // sharePreference
   static const String userLoginToken = 'user_login_token';
@@ -224,21 +225,25 @@ class AppConstants {
         languageName: 'English',
         countryCode: 'US',
         languageCode: 'en'),
+
     LanguageModel(
         imageUrl: Images.ar,
         languageName: 'Arabic',
         countryCode: 'SA',
         languageCode: 'ar'),
+
     LanguageModel(
         imageUrl: Images.hi,
         languageName: 'Hindi',
         countryCode: 'IN',
         languageCode: 'hi'),
+
     LanguageModel(
         imageUrl: Images.bn,
         languageName: 'Bangla',
         countryCode: 'BD',
         languageCode: 'bn'),
+
     LanguageModel(
         imageUrl: Images.es,
         languageName: 'Spanish',

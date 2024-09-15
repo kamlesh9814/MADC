@@ -9,22 +9,32 @@ import 'package:flutter_sixvalley_ecommerce/provider/coupon_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/order_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/profile_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/splash_provider.dart';
+import 'package:flutter_sixvalley_ecommerce/provider/theme_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/amount_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/animated_custom_dialog.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/custom_app_bar.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/custom_button.dart';
+import 'package:flutter_sixvalley_ecommerce/view/basewidget/guest_dialog.dart';
+import 'package:flutter_sixvalley_ecommerce/view/basewidget/no_internet_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/order_place_success_dialog.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/show_custom_snakbar.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/custom_textfield.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/cart/widget/cart_page_shimmer.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/cart/widget/cart_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/checkout/widget/choose_payment_section.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/checkout/widget/choose_shipping_method_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/checkout/widget/coupon_apply_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/checkout/widget/shipping_details_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/checkout/widget/shipping_method_bottom_sheet.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/checkout/widget/wallet_payment.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/dashboard/dashboard_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/offline_payment/offline_payment.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
+
+import '../../../utill/images.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final List<CartModel> cartList;
@@ -37,6 +47,7 @@ class CheckoutScreen extends StatefulWidget {
   final bool onlyDigital;
   final bool hasPhysical;
   final int quantity;
+  final bool fromCheckout;
 
   const CheckoutScreen(
       {Key? key,
@@ -49,7 +60,7 @@ class CheckoutScreen extends StatefulWidget {
       this.sellerId,
       this.onlyDigital = false,
       required this.quantity,
-      required this.hasPhysical})
+      required this.hasPhysical,  this.fromCheckout = false})
       : super(key: key);
 
   @override
@@ -130,7 +141,14 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                           getTranslated('select_a_billing_address', context),
                           context,
                           isToaster: true);
-                    } else {
+                    } else if (orderProvider.shippingIndex == null) {
+                      showCustomSnackBar(
+                          ('Choose Shipping Method'),
+                          context,
+                          isToaster: true);
+                    }
+
+                    else {
                       List<CartModel> cartList = [];
                       cartList.addAll(widget.cartList);
 
@@ -155,22 +173,30 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                               couponProvider.discount != 0
                           ? couponProvider.couponCode
                           : '';
+
                       String couponCodeAmount =
                           couponProvider.discount != null &&
                                   couponProvider.discount != 0
                               ? couponProvider.discount.toString()
                               : '0';
+
                       String addressId = !widget.onlyDigital
                           ? profileProvider
                               .addressList[orderProvider.addressIndex!].id
                               .toString()
                           : '';
+
                       String billingAddressId = (_billingAddress)
                           ? profileProvider
                               .billingAddressList[
                                   orderProvider.billingAddressIndex!]
                               .id
                               .toString()
+                          : '';
+                      String shippingId = !widget.onlyDigital
+                          ? profileProvider
+                          .shippingAddressList[orderProvider.shippingIndex!].id
+                          .toString()
                           : '';
 
                       if (orderProvider.paymentMethodIndex != -1) {
@@ -310,6 +336,128 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                             child: CouponApplyWidget(
                                 couponController: _controller,
                                 orderAmount: _order)),
+
+                        /**............................................. shipping method add code start..................................... **/
+
+                      InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) =>
+                            const ShippingMethodBottomSheet(
+                                groupId: 'all_cart_group',
+                                sellerIndex: 0,
+                                sellerId: 1),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                              Dimensions.paddingSizeDefault,
+                              0,
+                              Dimensions.paddingSizeDefault,
+                              Dimensions.paddingSizeDefault),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.5, color: Colors.grey),
+                                borderRadius:
+                                const BorderRadius.all(
+                                    Radius.circular(10))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment
+                                      .spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                            width: 15,
+                                            height: 15,
+                                            child: Image.asset(
+                                                Images.delivery,
+                                                color: Theme.of(
+                                                    context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color)),
+                                        const SizedBox(
+                                            width: Dimensions
+                                                .paddingSizeExtraSmall),
+                                        Text(
+                                          getTranslated(
+                                              'choose_shipping',
+                                              context)!,
+                                          style: textRegular,
+                                          overflow:
+                                          TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.end,
+                                        children: [
+                                          // Text(
+                                          //   // (cart.shippingList ==
+                                          //   //     null ||
+                                          //   //     cart.chosenShippingList
+                                          //   //         .isEmpty ||
+                                          //   //     cart.shippingList!
+                                          //   //         .isEmpty ||
+                                          //   //     cart
+                                          //   //         .shippingList![
+                                          //   //     0]
+                                          //   //         .shippingMethodList ==
+                                          //   //         null ||
+                                          //   //     cart
+                                          //   //         .shippingList![
+                                          //   //     0]
+                                          //   //         .shippingIndex ==
+                                          //   //         -1)
+                                          //   //     ? ''
+                                          //   //     : cart
+                                          //   //     .shippingList![
+                                          //   // 0]
+                                          //   //     .shippingMethodList![cart
+                                          //   //     .shippingList![
+                                          //   // 0]
+                                          //   //     .shippingIndex!]
+                                          //   //     .title
+                                          //   //     .toString(),
+                                          //   // style: titilliumSemiBold
+                                          //   //     .copyWith(
+                                          //   //     color: Theme.of(
+                                          //   //         context)
+                                          //   //         .hintColor),
+                                          //   // maxLines: 1,
+                                          //   // overflow: TextOverflow
+                                          //   //     .ellipsis,
+                                          //
+                                          // ),
+                                          const SizedBox(
+                                              width: Dimensions
+                                                  .paddingSizeExtraSmall),
+                                          Icon(
+                                              Icons
+                                                  .keyboard_arrow_down,
+                                              color: Theme.of(
+                                                  context)
+                                                  .primaryColor),
+                                        ]),
+                                  ]),
+                            ),
+                          ),
+                        ),
+                      ),
+
+
+
+                        /**............................................. shipping method add code end..................................... **/
 
                       Padding(
                           padding: const EdgeInsets.symmetric(

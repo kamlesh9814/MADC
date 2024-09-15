@@ -272,7 +272,7 @@ class CartProvider extends ChangeNotifier {
 
 
 
-  Future addShippingMethod(BuildContext context, int? id, String? cartGroupId) async {
+  Future addShippingMethod(BuildContext context, int? id, String? cartGroupId ) async {
     ApiResponse apiResponse = await cartRepo!.addShippingMethod(id,cartGroupId);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       Navigator.pop(Get.context!);

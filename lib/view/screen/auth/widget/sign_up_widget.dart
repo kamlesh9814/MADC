@@ -170,9 +170,6 @@ class SignUpWidgetState extends State<SignUpWidget> {
                   ),
                 ),
 
-
-
-
                 Container(
                   margin: const EdgeInsets.only(left: Dimensions.marginSizeDefault,
                       right: Dimensions.marginSizeDefault, top: Dimensions.marginSizeSmall),
@@ -188,7 +185,6 @@ class SignUpWidgetState extends State<SignUpWidget> {
                     prefixIcon: Images.pass,
                   ),
                 ),
-
 
 
                 Hero(
@@ -290,8 +286,6 @@ class SignUpWidgetState extends State<SignUpWidget> {
             );
           }
         ),
-
-
       ],
     );
   }

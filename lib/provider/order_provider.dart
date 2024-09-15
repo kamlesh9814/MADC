@@ -34,6 +34,7 @@ class OrderProvider with ChangeNotifier {
   int? _addressIndex;
   int? _billingAddressIndex;
   int? get billingAddressIndex => _billingAddressIndex;
+
   int? _shippingIndex;
   bool _isLoading = false;
   bool _isRefund = false;

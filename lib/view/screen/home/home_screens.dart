@@ -229,15 +229,15 @@ class _HomePageState extends State<HomePage> {
                                         //Like sunday monday tuesday
                                         // Date and day
                                         Text(
-                                          '${DateFormat('dd MMMM').format(DateTime.now())}',
+                                          DateFormat('dd MMMM').format(DateTime.now()),
                                           style:
                                               textBold.copyWith(fontSize: 20),
                                         ),
                                         Text(
-                                          '${DateFormat('EEEE').format(DateTime.now())}',
+                                          DateFormat('EEEE').format(DateTime.now()),
                                         ),
 
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
 
                                         Row(
                                           mainAxisAlignment:
@@ -245,13 +245,12 @@ class _HomePageState extends State<HomePage> {
                                           children: [
                                             Row(
                                               children: [
-                                                Icon(Icons.thermostat_outlined),
+                                                const Icon(Icons.thermostat_outlined),
                                                 const SizedBox(
                                                     width: Dimensions
                                                         .paddingSizeSmall),
                                                 Text(
-                                                    " ${authProvider.weatherData!.current?.temperature2M}" +
-                                                        '°',
+                                                    " ${authProvider.weatherData!.current?.temperature2M}" '°',
                                                     style: textBold.copyWith(
                                                         fontSize: 20)),
                                               ],
@@ -259,13 +258,12 @@ class _HomePageState extends State<HomePage> {
                                             //wind Speed
                                             Row(
                                               children: [
-                                                Icon(Icons.air_outlined),
+                                                const Icon(Icons.air_outlined),
                                                 const SizedBox(
                                                     width: Dimensions
                                                         .paddingSizeSmall),
                                                 Text(
-                                                    " ${authProvider.weatherData!.current?.windSpeed10M}" +
-                                                        'km/h',
+                                                    " ${authProvider.weatherData!.current?.windSpeed10M}" 'km/h',
                                                     style: textBold.copyWith(
                                                         fontSize: 20)),
                                               ],
@@ -357,11 +355,14 @@ class _HomePageState extends State<HomePage> {
                               MaterialPageRoute(
                                   builder: (_) => const AllCategoryScreen()))),
                     ),
+
                     const SizedBox(height: 2),
                     const Padding(
                       padding: EdgeInsets.all(6.0),
                       child: CategoryView(isHomePage: true),
                     ),
+
+                    const SizedBox(height: 10),
 
                     // Special Category
                     const Padding(

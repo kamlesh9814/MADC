@@ -29,7 +29,7 @@ class SpecialCategoryProductScreen extends StatelessWidget {
               ? const ProductShimmer(isEnabled: true, isHomePage: false)
               : productProvider
                       .specialCategoryProductModel!.sellerProducts.isEmpty
-                  ? Center(
+                  ? const Center(
                       child: Text("No products found"),
                     )
                   : Column(
@@ -42,9 +42,7 @@ class SpecialCategoryProductScreen extends StatelessWidget {
                               physics: const BouncingScrollPhysics(),
                               crossAxisCount: 2,
                               itemCount: productProvider
-                                  .specialCategoryProductModel
-                                  ?.sellerProducts
-                                  .length,
+                                  .specialCategoryProductModel?.sellerProducts.length,
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
                                 final product = productProvider

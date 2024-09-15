@@ -8,7 +8,7 @@ import '../shimmer/category_shimmer.dart';
 
 class CategoryView extends StatelessWidget {
   final bool isHomePage;
-  const CategoryView({Key? key, required this.isHomePage}) : super(key: key);
+  const CategoryView({Key? key,  required this.isHomePage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,22 +18,24 @@ class CategoryView extends StatelessWidget {
             ? Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Container(
-                  constraints: BoxConstraints(
-                    maxHeight: 1100,
+                  constraints: const BoxConstraints(
+                    maxHeight: 1200,
                   ),
                   child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     primary: true,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                      crossAxisCount: 4,
                       childAspectRatio: 1.45,
+                          mainAxisSpacing: 10,
                     ),
                     padding: EdgeInsets.zero,
                     scrollDirection: Axis.vertical,
                     itemCount: categoryProvider.categoryList.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
+                     // print("data is here ${categoryProvider.categoryList[index].id}");
                       return InkWell(
                         onTap: () {
                           Navigator.push(
@@ -48,15 +50,13 @@ class CategoryView extends StatelessWidget {
                                             .categoryList[index].name,
                                       )));
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
+
                           child: Center(
                             child: CategoryWidget(
                                 category: categoryProvider.categoryList[index],
                                 index: index,
                                 length: categoryProvider.categoryList.length),
                           ),
-                        ),
                       );
                     },
                   ),

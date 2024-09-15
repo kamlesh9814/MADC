@@ -93,7 +93,9 @@ class CartRepo{
       final response = await dioClient!.post(AppConstants.chooseShippingMethod,
           data: {"id":id,
             'guest_id' : Provider.of<AuthProvider>(Get.context!, listen: false).getGuestToken(),
-            "cart_group_id": cartGroupId});
+            "cart_group_id": cartGroupId ,
+
+      });
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

@@ -32,6 +32,7 @@ class BrandView extends StatelessWidget {
 
                 return InkWell(
                   onTap: () {
+                    print("kamlesh your image is here ${Provider.of<SplashProvider>(context,listen: false).baseUrls!.brandImageUrl!}/${brandProvider.brandList[index].image!}}");
                     Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                       isBrand: true,
                       id: brandProvider.brandList[index].id.toString(),

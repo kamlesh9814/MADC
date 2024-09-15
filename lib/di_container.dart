@@ -7,6 +7,7 @@ import 'package:flutter_sixvalley_ecommerce/data/repository/brand_repo.dart';
 import 'package:flutter_sixvalley_ecommerce/data/repository/cart_repo.dart';
 import 'package:flutter_sixvalley_ecommerce/data/repository/category_repo.dart';
 import 'package:flutter_sixvalley_ecommerce/data/repository/chat_repo.dart';
+import 'package:flutter_sixvalley_ecommerce/data/repository/check_tat_repo.dart';
 import 'package:flutter_sixvalley_ecommerce/data/repository/coupon_repo.dart';
 import 'package:flutter_sixvalley_ecommerce/data/repository/featured_deal_repo.dart';
 import 'package:flutter_sixvalley_ecommerce/data/repository/flash_deal_repo.dart';
@@ -31,6 +32,7 @@ import 'package:flutter_sixvalley_ecommerce/provider/brand_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/cart_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/category_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/chat_provider.dart';
+import 'package:flutter_sixvalley_ecommerce/provider/check_tat_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/coupon_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/facebook_login_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/provider/featured_deal_provider.dart';
@@ -95,6 +97,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => LocationRepo(dioClient: sl()));
   sl.registerLazySingleton(() => WalletTransactionRepo(dioClient: sl()));
   sl.registerLazySingleton(() => CompareRepo(dioClient: sl()));
+  sl.registerLazySingleton(() => CheckTatRepo(dioClient: sl(), sharedPreferences: sl()));
+
 
   // Provider
   sl.registerFactory(() => CategoryProvider(categoryRepo: sl()));
@@ -126,6 +130,7 @@ Future<void> init() async {
   sl.registerFactory(() => LocationProvider(sharedPreferences: sl(), locationRepo: sl()));
   sl.registerFactory(() => WalletTransactionProvider(transactionRepo: sl()));
   sl.registerFactory(() => CompareProvider(compareRepo: sl()));
+  sl.registerFactory(() => CheckTatProvider(checkTatRepo: sl()));
 
   // External
   final sharedPreferences = await SharedPreferences.getInstance();

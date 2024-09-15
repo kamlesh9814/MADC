@@ -49,7 +49,7 @@ class AllBrandScreen extends StatelessWidget {
           }, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             offset: const Offset(0, 45),
             child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-                child: Image.asset(Images.filterImage, color: ColorResources.white)),
+                child: Image.asset(Images.filterImage, color: ColorResources.black)),
             onSelected: (dynamic value) {
             Provider.of<BrandProvider>(context, listen: false).sortBrandLis(value);
             })]),
