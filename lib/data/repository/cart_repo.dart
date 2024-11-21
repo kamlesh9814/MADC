@@ -24,6 +24,7 @@ class CartRepo{
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
+
   Future<ApiResponse> addToCartListData(CartModelBody cart, List<ChoiceOptions> choiceOptions, List<int>? variationIndexes) async {
     Map<String?, dynamic> choice = {};
     for(int index=0; index<choiceOptions.length; index++){
@@ -88,6 +89,7 @@ class CartRepo{
   Future<ApiResponse> addShippingMethod(int? id, String? cartGroupId) async {
     if (kDebugMode) {
       print('===>${{"id":id, "cart_group_id": cartGroupId}}');
+
     }
     try {
       final response = await dioClient!.post(AppConstants.chooseShippingMethod,

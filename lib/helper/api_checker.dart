@@ -14,7 +14,7 @@ class ApiChecker {
       Provider.of<AuthProvider>(Get.context!,listen: false).clearSharedData();
       Navigator.of(Get.context!).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const AuthScreen()), (route) => false);
     }else if(apiResponse.response?.statusCode == 500){
-      showCustomSnackBar(getTranslated('internal_server_error', Get.context!), Get.context!);
+      // showCustomSnackBar(getTranslated('internal_server_error', Get.context!), Get.context!);
     }else {
       String? errorMessage = apiResponse.error.toString();
       if (apiResponse.error is String) {

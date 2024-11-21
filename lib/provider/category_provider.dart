@@ -58,7 +58,7 @@ class CategoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetChecked(int? id, bool fromShop){
+  void resetChecked(int? id, bool fromShop) {
     if(fromShop){
       getSellerWiseCategoryList(id!);
       Provider.of<BrandProvider>(Get.context!, listen: false).getSellerWiseBrandList(id);
@@ -67,8 +67,6 @@ class CategoryProvider extends ChangeNotifier {
       getCategoryList(true);
       Provider.of<BrandProvider>(Get.context!, listen: false).getBrandList(true);
     }
-
-
   }
 
   void changeSelectedIndex(int selectedIndex) {

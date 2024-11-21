@@ -35,7 +35,7 @@ class FlashDealCard extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
 
                 Padding(padding: const EdgeInsets.all(8.0),
-                  child: Container(height: 210,
+                  child: Container(height: 230,
                     decoration: BoxDecoration(border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.2),width: .25),
                       color: ColorResources.getIconBg(context),
                       borderRadius: const BorderRadius.all( Radius.circular(10))),

@@ -119,14 +119,13 @@ class TitleRow extends StatelessWidget {
                       ],
                     ),
                   ) :onTap != null && !isFlash ?
-                  Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding),
-                    child: InkWell(onTap: onTap as void Function()?,
-                      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              InkWell(onTap: onTap as void Function()?,
+                      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                             isDetailsPage == null ? Text(getTranslated('VIEW_ALL', context)!,
                                 style: titilliumRegular.copyWith(color: Provider.of<ThemeProvider>(context, listen: false).darkTheme? Theme.of(context).hintColor : Theme.of(context).primaryColor,
                                   fontSize: Dimensions.fontSizeDefault,)) : const SizedBox.shrink(),
                           ]),
-                    ),
+
                   ):
                   const SizedBox.shrink(),
                 ]),

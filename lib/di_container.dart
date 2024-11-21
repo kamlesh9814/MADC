@@ -58,6 +58,8 @@ import 'package:flutter_sixvalley_ecommerce/provider/wishlist_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/compare/controller/compare_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/compare/repository/compare_repo.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/product/GetQuotesProvider.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/product/GetQuotesRepo.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -98,6 +100,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => WalletTransactionRepo(dioClient: sl()));
   sl.registerLazySingleton(() => CompareRepo(dioClient: sl()));
   sl.registerLazySingleton(() => CheckTatRepo(dioClient: sl(), sharedPreferences: sl()));
+  sl.registerLazySingleton(() => GetQuotesRepo());
 
 
   // Provider
@@ -131,6 +134,7 @@ Future<void> init() async {
   sl.registerFactory(() => WalletTransactionProvider(transactionRepo: sl()));
   sl.registerFactory(() => CompareProvider(compareRepo: sl()));
   sl.registerFactory(() => CheckTatProvider(checkTatRepo: sl()));
+  sl.registerFactory(() => GetQuotesProvider(getQuotesRepo: sl()));
 
   // External
   final sharedPreferences = await SharedPreferences.getInstance();

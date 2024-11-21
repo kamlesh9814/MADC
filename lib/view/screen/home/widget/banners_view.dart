@@ -25,9 +25,9 @@ class BannersView extends StatelessWidget {
             double width = MediaQuery.of(context).size.width;
             return Stack(children: [
                 bannerProvider.mainBannerList != null ? bannerProvider.mainBannerList!.isNotEmpty ?
-                SizedBox(height: width * 0.39,width: width,
+                SizedBox(height: width * 0.49,width: width,
                   child: Column(children: [
-                      SizedBox(height: width * 0.33, width: width,
+                      SizedBox(height: width * 0.43, width: width,
                         child: CarouselSlider.builder(
                           options: CarouselOptions(
                             aspectRatio: 4/1,

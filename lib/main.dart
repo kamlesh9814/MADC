@@ -36,6 +36,7 @@ import 'package:flutter_sixvalley_ecommerce/provider/wishlist_provider.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/dark_theme.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/light_theme.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/product/GetQuotesProvider.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/splash/splash_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -110,6 +111,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (context) => di.sl<WalletTransactionProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<CompareProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<CheckTatProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<GetQuotesProvider>()),
     ],
     child: MyApp(orderId: orderID),
   ));

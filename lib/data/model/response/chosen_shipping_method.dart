@@ -29,6 +29,7 @@ class ChosenShippingMethodModel {
   String? get updatedAt => _updatedAt;
 
   ChosenShippingMethodModel.fromJson(Map<String, dynamic> json) {
+    print(" model shipping cost${_shippingCost}");
     _id = json['id'];
     _cartGroupId = json['cart_group_id'];
     _shippingMethodId = int.parse(json['shipping_method_id'].toString());

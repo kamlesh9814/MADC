@@ -11,9 +11,9 @@ class ApiErrorHandler {
           switch (error.type) {
             case DioErrorType.cancel:
               errorDescription = "Request to API server was cancelled";
-              break;
-            case DioErrorType.connectTimeout:
-              errorDescription = "Connection timeout with API server";
+            //   break;
+            // case DioErrorType.connectTimeout:
+            //   errorDescription = "Connection timeout with API server";
               break;
             case DioErrorType.other:
               errorDescription =
@@ -52,6 +52,9 @@ class ApiErrorHandler {
               break;
             case DioErrorType.sendTimeout:
               errorDescription = "Send timeout with server";
+              break;
+            case DioErrorType.connectTimeout:
+              // TODO: Handle this case.
               break;
           }
         } else {

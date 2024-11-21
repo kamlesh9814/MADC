@@ -83,7 +83,7 @@ class AppConstants {
   static const String tokenUri = '/api/v1/customer/cm-firebase-token';
   static const String notificationUri = '/api/v1/notifications';
   static const String seenNotificationUri = '/api/v1/notifications/seen';
-  static const String getCartDataUri = '/api/v1/cart';
+    static const String getCartDataUri = '/api/v1/cart';
   static const String addToCartUri = '/api/v1/cart/add';
   static const String updateCartQuantityUri = '/api/v1/cart/update';
   static const String removeFromCartUri = '/api/v1/cart/remove';
@@ -175,6 +175,7 @@ class AppConstants {
   static const String replaceFromCompareList =
       '/api/v1/customer/compare/product-replace';
   static const String checkTatURl = '/api/v1/check-tat';
+  static const String addQuotes = '/api/v1/addQuotes';
 
   // sharePreference
   static const String userLoginToken = 'user_login_token';

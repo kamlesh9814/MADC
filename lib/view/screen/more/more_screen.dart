@@ -76,6 +76,10 @@ class _MoreScreenState extends State<MoreScreen> {
             .businessMode ==
         "single";
 
+    Provider.of<ProfileProvider>(context, listen: false)
+        .initAddressTypeList(context);
+    Provider.of<ProfileProvider>(context, listen: false).initAddressList();
+
     super.initState();
   }
 

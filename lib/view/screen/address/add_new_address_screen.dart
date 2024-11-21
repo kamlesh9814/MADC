@@ -144,7 +144,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
 
   updateAdress() {
     if (widget.address != null) {
-      state = widget.address!.state??'';
+      state = widget.address!.state ?? '';
 
       switch (widget.address!.addressType) {
         case 'home':

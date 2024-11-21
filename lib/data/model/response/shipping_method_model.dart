@@ -21,7 +21,6 @@ class ShippingMethodModel {
         this.updatedAt});
 
 
-
   ShippingMethodModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     creatorId = json['creator_id'];
@@ -48,3 +47,51 @@ class ShippingMethodModel {
     return data;
   }
 }
+
+
+
+
+
+
+
+//
+// class ShippingMethodModel {
+//   int? id;
+//   String? cartGroupId;
+//   int? shippingMethodId;
+//   int? shippingAddressId;
+//   int? shippingCost;
+//   String? createdAt;
+//   String? updatedAt;
+//
+//   ShippingMethodModel(
+//       {this.id,
+//         this.cartGroupId,
+//         this.shippingMethodId,
+//         this.shippingAddressId,
+//         this.shippingCost,
+//         this.createdAt,
+//         this.updatedAt});
+//
+//   ShippingMethodModel.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     cartGroupId = json['cart_group_id'];
+//     shippingMethodId = json['shipping_method_id'];
+//     shippingAddressId = json['shipping_address_id'];
+//     shippingCost = json['shipping_cost'];
+//     createdAt = json['created_at'];
+//     updatedAt = json['updated_at'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['id'] = id;
+//     data['cart_group_id'] = cartGroupId;
+//     data['shipping_method_id'] = shippingMethodId;
+//     data['shipping_address_id'] = shippingAddressId;
+//     data['shipping_cost'] = shippingCost;
+//     data['created_at'] = createdAt;
+//     data['updated_at'] = updatedAt;
+//     return data;
+//   }
+// }

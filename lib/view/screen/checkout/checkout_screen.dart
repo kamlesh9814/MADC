@@ -60,7 +60,8 @@ class CheckoutScreen extends StatefulWidget {
       this.sellerId,
       this.onlyDigital = false,
       required this.quantity,
-      required this.hasPhysical,  this.fromCheckout = false})
+      required this.hasPhysical,
+      this.fromCheckout = false})
       : super(key: key);
 
   @override
@@ -141,14 +142,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                           getTranslated('select_a_billing_address', context),
                           context,
                           isToaster: true);
-                    } else if (orderProvider.shippingIndex == null) {
-                      showCustomSnackBar(
-                          ('Choose Shipping Method'),
-                          context,
-                          isToaster: true);
-                    }
-
-                    else {
+                    } else {
                       List<CartModel> cartList = [];
                       cartList.addAll(widget.cartList);
 
@@ -192,11 +186,6 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                                   orderProvider.billingAddressIndex!]
                               .id
                               .toString()
-                          : '';
-                      String shippingId = !widget.onlyDigital
-                          ? profileProvider
-                          .shippingAddressList[orderProvider.shippingIndex!].id
-                          .toString()
                           : '';
 
                       if (orderProvider.paymentMethodIndex != -1) {
@@ -250,6 +239,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                       } else if (orderProvider.walletChecked) {
                         showAnimatedDialog(context, Consumer<ProfileProvider>(
                             builder: (context, profile, _) {
+                          print("tax amount ${widget.discount}");
                           return WalletPayment(
                             currentBalance: profile.balance,
                             orderAmount: _order +
@@ -303,6 +293,8 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                         }), dismissible: false, isFlip: true);
                       } else {}
                     }
+
+                    /** .................................................................................. **/
                   },
                   buttonText: '${getTranslated('proceed', context)}',
                 ),
@@ -321,12 +313,12 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(0),
                     children: [
-                      Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: Dimensions.paddingSizeDefault),
-                          child: ShippingDetailsWidget(
-                              hasPhysical: widget.hasPhysical,
-                              billingAddress: _billingAddress)),
+                      // Padding(
+                      //     padding: const EdgeInsets.only(
+                      //         bottom: Dimensions.paddingSizeDefault),
+                      //     child: ShippingDetailsWidget(
+                      //         hasPhysical: widget.hasPhysical,
+                      //         billingAddress: _billingAddress)),
 
                       if (Provider.of<AuthProvider>(context, listen: false)
                           .isLoggedIn())
@@ -336,128 +328,6 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                             child: CouponApplyWidget(
                                 couponController: _controller,
                                 orderAmount: _order)),
-
-                        /**............................................. shipping method add code start..................................... **/
-
-                      InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) =>
-                            const ShippingMethodBottomSheet(
-                                groupId: 'all_cart_group',
-                                sellerIndex: 0,
-                                sellerId: 1),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                              Dimensions.paddingSizeDefault,
-                              0,
-                              Dimensions.paddingSizeDefault,
-                              Dimensions.paddingSizeDefault),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 0.5, color: Colors.grey),
-                                borderRadius:
-                                const BorderRadius.all(
-                                    Radius.circular(10))),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                            width: 15,
-                                            height: 15,
-                                            child: Image.asset(
-                                                Images.delivery,
-                                                color: Theme.of(
-                                                    context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color)),
-                                        const SizedBox(
-                                            width: Dimensions
-                                                .paddingSizeExtraSmall),
-                                        Text(
-                                          getTranslated(
-                                              'choose_shipping',
-                                              context)!,
-                                          style: textRegular,
-                                          overflow:
-                                          TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.end,
-                                        children: [
-                                          // Text(
-                                          //   // (cart.shippingList ==
-                                          //   //     null ||
-                                          //   //     cart.chosenShippingList
-                                          //   //         .isEmpty ||
-                                          //   //     cart.shippingList!
-                                          //   //         .isEmpty ||
-                                          //   //     cart
-                                          //   //         .shippingList![
-                                          //   //     0]
-                                          //   //         .shippingMethodList ==
-                                          //   //         null ||
-                                          //   //     cart
-                                          //   //         .shippingList![
-                                          //   //     0]
-                                          //   //         .shippingIndex ==
-                                          //   //         -1)
-                                          //   //     ? ''
-                                          //   //     : cart
-                                          //   //     .shippingList![
-                                          //   // 0]
-                                          //   //     .shippingMethodList![cart
-                                          //   //     .shippingList![
-                                          //   // 0]
-                                          //   //     .shippingIndex!]
-                                          //   //     .title
-                                          //   //     .toString(),
-                                          //   // style: titilliumSemiBold
-                                          //   //     .copyWith(
-                                          //   //     color: Theme.of(
-                                          //   //         context)
-                                          //   //         .hintColor),
-                                          //   // maxLines: 1,
-                                          //   // overflow: TextOverflow
-                                          //   //     .ellipsis,
-                                          //
-                                          // ),
-                                          const SizedBox(
-                                              width: Dimensions
-                                                  .paddingSizeExtraSmall),
-                                          Icon(
-                                              Icons
-                                                  .keyboard_arrow_down,
-                                              color: Theme.of(
-                                                  context)
-                                                  .primaryColor),
-                                        ]),
-                                  ]),
-                            ),
-                          ),
-                        ),
-                      ),
-
-
-
-                        /**............................................. shipping method add code end..................................... **/
 
                       Padding(
                           padding: const EdgeInsets.symmetric(
@@ -484,7 +354,8 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                             _couponDiscount =
                                 Provider.of<CouponProvider>(context).discount ??
                                     0;
-
+                            print(
+                                "total fee : ${PriceConverter.convertPrice(context, widget.shippingFee)}");
                             return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -528,8 +399,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                                           (_order +
                                               widget.shippingFee -
                                               widget.discount -
-                                              _couponDiscount! +
-                                              widget.tax))),
+                                              _couponDiscount!))),
                                 ]);
                           },
                         ),
@@ -589,7 +459,6 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           ),
           dismissible: false,
           isFlip: true);
-
       Provider.of<OrderProvider>(context, listen: false).stopLoader();
     } else {
       showCustomSnackBar(message, context, isToaster: true);

@@ -547,10 +547,7 @@ class _HomePageState extends State<HomePage> {
                         child: LatestProductView()),
 
                     // Brand
-                    Provider.of<SplashProvider>(context, listen: false)
-                                .configModel!
-                                .brandSetting ==
-                            "1"
+                    Provider.of<SplashProvider>(context, listen: false).configModel!.brandSetting == "1"
                         ? TitleRow(
                             title: getTranslated('brand', context),
                             onTap: () => Navigator.push(

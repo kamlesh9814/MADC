@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/product/brand_and_category_product_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/product/special_category_product_view_all_screen.dart';
 
 class SpecialCategory {
   final String name;
   final String image;
   final int? id;
+
   SpecialCategory({required this.id, required this.image, required this.name});
 }
 
 class SpecialCategoryView extends StatelessWidget {
   final bool isHomePage;
+
   SpecialCategoryView({Key? key, required this.isHomePage}) : super(key: key);
 
   List<SpecialCategory> specialCategories = [
@@ -17,9 +20,8 @@ class SpecialCategoryView extends StatelessWidget {
     SpecialCategory(id: 6, image: 'bachat.jpeg', name: 'Mahila Bachat Gat'),
     SpecialCategory(id: null, image: 'special.jpeg', name: 'Special Category'),
     SpecialCategory(id: 11, image: 'prison.jpeg', name: 'Prison'),
-    SpecialCategory(id: 1, image: 'millet.jpeg', name: 'Millet'),
+    SpecialCategory(id: 214, image: 'millet.jpeg', name: 'Millet'),
     SpecialCategory(id: 16, image: 'government.jpeg', name: 'Government Organization'),
-
   ];
 
   @override
@@ -44,10 +46,24 @@ class SpecialCategoryView extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        if (cat.id == null) return;
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => SpecialCategoryProductScreen(
-                                id: cat.id!, name: cat.name)));
+                        // Check if the category is Millet by id or name
+                        if (cat.id == 214 || cat.name == 'Millet') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => BrandAndCategoryProductScreen(
+                                isBrand: false,
+                                id: cat.id.toString(),
+                                name: cat.name,
+                              ),
+                            ),
+                          );
+                        } else if (cat.id != null) {
+                          // Navigate to SpecialCategoryProductScreen for all other categories
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => SpecialCategoryProductScreen(
+                                  id: cat.id!, name: cat.name)));
+                        }
                       },
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),

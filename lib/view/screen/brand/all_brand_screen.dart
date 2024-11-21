@@ -7,6 +7,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/home/widget/brand_view.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/home/widget/latest_products_view/brand_all_view.dart';
 import 'package:provider/provider.dart';
 
 class AllBrandScreen extends StatelessWidget {
@@ -55,7 +56,7 @@ class AllBrandScreen extends StatelessWidget {
             })]),
 
       body: const Padding(padding: EdgeInsets.all(Dimensions.paddingSizeSmall),
-        child: BrandView(isHomePage: false)),
+        child: BrandAllView(isHomePage: false)),
     );
   }
 }

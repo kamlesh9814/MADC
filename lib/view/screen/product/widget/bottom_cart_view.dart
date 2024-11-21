@@ -50,17 +50,11 @@ class _BottomCartViewState extends State<BottomCartView> {
     }else{
       temporaryClose = false;
     }
-
-
   }
 
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
     return Container(
       height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -76,7 +70,7 @@ class _BottomCartViewState extends State<BottomCartView> {
             GestureDetector(
                 onTap: (){
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context)=>const CartScreen()
+                      builder: (context)=>const CartScreen(cartList: [],)
                   ));
                 },
                 child: Image.asset(Images.cartArrowDownImage, color: ColorResources.getPrimary(context))),

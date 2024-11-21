@@ -1,7 +1,4 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/response/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
@@ -18,7 +15,6 @@ import 'package:flutter_sixvalley_ecommerce/view/basewidget/guest_dialog.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/no_internet_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/show_custom_snakbar.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/cart/widget/cart_page_shimmer.dart';
-import 'package:flutter_sixvalley_ecommerce/view/screen/cart/widget/cart_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/checkout/checkout_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/checkout/widget/shipping_method_bottom_sheet.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -131,7 +127,7 @@ class ChooseShippingMethodScreen extends StatelessWidget {
                 child: cartList.isNotEmpty
                     ? Column(children: [
                   Padding(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           vertical: Dimensions.paddingSizeDefault),
                       child: Row(
                           mainAxisAlignment:
@@ -259,19 +255,19 @@ class ChooseShippingMethodScreen extends StatelessWidget {
                                 'select_all_shipping_method',
                                 context),
                             context);
-// } else if (cart.chosenShippingList.isEmpty &&
-//     configProvider
-//             .configModel!.shippingMethod !=
-//         'sellerwise_shipping' &&
-//     configProvider.configModel!
-//             .inhouseSelectedShippingType ==
-//         'order_wise' &&
-//     !onlyDigital) {
-//   showCustomSnackBar(
-//       getTranslated(
-//           'select_all_shipping_method',
-//           context),
-//       context);
+                      } else if (cart.chosenShippingList.isEmpty &&
+                          configProvider
+                              .configModel!.shippingMethod !=
+                              'sellerwise_shipping' &&
+                          configProvider.configModel!
+                              .inhouseSelectedShippingType ==
+                              'order_wise' &&
+                          !onlyDigital) {
+                        showCustomSnackBar(
+                            getTranslated(
+                                'select_all_shipping_method',
+                                context),
+                            context);
                       } else if (minimum) {
                         showCustomSnackBar(
                             getTranslated(
@@ -329,7 +325,7 @@ class ChooseShippingMethodScreen extends StatelessWidget {
           appBar: CustomAppBar(title: getTranslated('my_cart', context)),
           body: Column(children: [
             cart.isXyz
-                ? Expanded(child: CartPageShimmer())
+                ? const Expanded(child: CartPageShimmer())
                 : sellerList.isNotEmpty
                 ? Expanded(
               child: Column(
@@ -1114,12 +1110,10 @@ class ChooseShippingMethodScreen extends StatelessWidget {
                     ),
                   )
                       : const SizedBox(),
-
-
                 ],
               ),
             )
-                : Expanded(
+                : const Expanded(
                 child: NoInternetOrDataScreen(
                   icon: Images.emptyCart,
                   icCart: true,

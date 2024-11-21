@@ -14,8 +14,10 @@ import 'package:flutter_sixvalley_ecommerce/view/screen/product/widget/favourite
 import 'package:provider/provider.dart';
 
 class ProductWidget extends StatelessWidget {
+  final String? categoryname;
   final Product productModel;
-  const ProductWidget({Key? key, required this.productModel}) : super(key: key);
+  const ProductWidget({Key? key, required this.productModel,this.categoryname
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +27,13 @@ class ProductWidget extends StatelessWidget {
             : "0";
     return InkWell(
       onTap: () {
+
         Navigator.push(
             context,
             PageRouteBuilder(
               transitionDuration: const Duration(milliseconds: 1000),
               pageBuilder: (context, anim1, anim2) => ProductDetails(
+                categoryName:categoryname,
                   productId: productModel.id, slug: productModel.slug),
             ));
       },

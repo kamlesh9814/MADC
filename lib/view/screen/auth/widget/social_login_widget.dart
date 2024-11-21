@@ -85,6 +85,7 @@ class SocialLoginWidgetState extends State<SocialLoginWidget> {
                   if(Provider.of<GoogleSignInProvider>(Get.context!,listen: false).googleAccount != null){
                     id = Provider.of<GoogleSignInProvider>(Get.context!,listen: false).googleAccount!.id;
                     email = Provider.of<GoogleSignInProvider>(Get.context!,listen: false).googleAccount!.email;
+                    print(" Device token :-${Provider.of<GoogleSignInProvider>(Get.context!,listen: false).auth.accessToken}");
                     token = Provider.of<GoogleSignInProvider>(Get.context!,listen: false).auth.accessToken;
                     medium = 'google';
                     if (kDebugMode) {

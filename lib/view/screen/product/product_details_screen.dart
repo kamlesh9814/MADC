@@ -5,6 +5,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/view/basewidget/custom_app_bar.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/home/shimmer/product_details_shimmer.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/product/GetQuotesModel.dart';
+import 'package:flutter_sixvalley_ecommerce/view/screen/product/GetQuotesProvider.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/product/widget/promise_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/product/widget/review_section.dart';
 import 'package:flutter_sixvalley_ecommerce/view/screen/product/widget/seller_view.dart';
@@ -26,12 +28,15 @@ class ProductDetails extends StatefulWidget {
   final int? productId;
   final String? slug;
   final bool isFromWishList;
-  const ProductDetails(
-      {Key? key,
-      required this.productId,
-      required this.slug,
-      this.isFromWishList = false})
-      : super(key: key);
+  final String? categoryName;
+
+  const ProductDetails({
+    Key? key,
+    required this.productId,
+    required this.slug,
+    this.isFromWishList = false,
+    this.categoryName,
+  }) : super(key: key);
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -39,6 +44,7 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   final TextEditingController checkTat = TextEditingController();
+
   _loadData(BuildContext context) async {
     Provider.of<ProductDetailsProvider>(context, listen: false)
         .getProductDetails(context, widget.slug.toString());
@@ -63,6 +69,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   bool isReview = false;
+
   @override
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
@@ -88,83 +95,106 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         null
                                     ? details.productDetailsModel!.averageReview
                                     : "0"),
-
-                Consumer<CheckTatProvider>(
-                  builder: (context, checkTatProvider, child) {
-                    return Padding(
-                      padding: const EdgeInsets.all(16.0), // Add padding around the whole column
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start, // Align messages to the left
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 16.0), // Padding below the row
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start, // Align items to the start
-                              crossAxisAlignment: CrossAxisAlignment.center, // Centers items vertically
-                              children: [
-                                const Text("Delivery :",style: TextStyle(fontSize: 14,)),
-                                const SizedBox(width: 3,),
-                                Expanded(
-                                  child:
-                                  TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: checkTat,
-                                    decoration: const InputDecoration(
-                                      fillColor: Colors.black,
-                                      isDense: true,
-                                      hintText: 'Enter the pin code ',
-                                      hintStyle: TextStyle(color: Colors.grey , fontSize: 14 ,fontWeight: FontWeight.normal), // Optional: Change hint text color
-                                      prefixIcon: Icon(Icons.telegram_sharp, color: ColorResources.black ,size: 20,), // Add location icon
-                                    ),
-                                    onChanged: (value) {
-                                      // Map payload = {
-                                      //   'product_id': widget.productId,
-                                      //   'pincode': checkTat.text,
-                                      // };
-                                      // print('load is $payload');
-                                      // checkTatProvider.postCheckTat(payload);
-                                    },
-                                  )
-
-                                ),
-                                const SizedBox(width: 10), // Space between the form field and button
-                                TextButton(
-                                  onPressed: () {
-                                    Map payload = {
-                                      'product_id': widget.productId,
-                                      'pincode': checkTat.text,
-                                    };
-                                    print('load is $payload');
-                                    checkTatProvider.postCheckTat(payload);
-                                  },
-                                  child: const Text('Check'),
-                                ),
-                              ],
+                            Consumer<CheckTatProvider>(
+                              builder: (context, checkTatProvider, child) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  // Add padding around the whole column
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    // Align messages to the left
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 16.0),
+                                        // Padding below the row
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          // Align items to the start
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          // Centers items vertically
+                                          children: [
+                                            const Text("Delivery :",
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                )),
+                                            const SizedBox(
+                                              width: 3,
+                                            ),
+                                            Expanded(
+                                                child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              controller: checkTat,
+                                              decoration: const InputDecoration(
+                                                fillColor: Colors.black,
+                                                isDense: true,
+                                                hintText: 'Enter the pin code ',
+                                                hintStyle: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                                // Optional: Change hint text color
+                                                prefixIcon: Icon(
+                                                  Icons.telegram_sharp,
+                                                  color: ColorResources.black,
+                                                  size: 20,
+                                                ), // Add location icon
+                                              ),
+                                              onChanged: (value) {
+                                                // Map payload = {
+                                                //   'product_id': widget.productId,
+                                                //   'pincode': checkTat.text,
+                                                // };
+                                                // print('load is $payload');
+                                                // checkTatProvider.postCheckTat(payload);
+                                              },
+                                            )),
+                                            const SizedBox(width: 10),
+                                            // Space between the form field and button
+                                            TextButton(
+                                              onPressed: () {
+                                                Map payload = {
+                                                  'product_id':
+                                                      widget.productId,
+                                                  'pincode': checkTat.text,
+                                                };
+                                                print('load is $payload');
+                                                checkTatProvider
+                                                    .postCheckTat(payload);
+                                              },
+                                              child: const Text('Check'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Display success message after API response
+                                      if (checkTatProvider.successMessage !=
+                                              null &&
+                                          checkTatProvider
+                                              .successMessage!.isNotEmpty)
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          // Add padding around message
+                                          child: Text(
+                                            'The Product will be Delivered in ${checkTatProvider.successMessage!}',
+                                            style: const TextStyle(
+                                                color: Colors.green),
+                                            overflow: TextOverflow
+                                                .ellipsis, // Handle long text
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                          ),
-                          // Display success message after API response
-                          if (checkTatProvider.successMessage != null &&
-                              checkTatProvider.successMessage!.isNotEmpty)
                             Padding(
-                              padding: const EdgeInsets.only(top: 8.0), // Add padding around message
-                              child: Text(
-                                'The Product will be Delivered in ${checkTatProvider.successMessage!}',
-                                style: const TextStyle(color: Colors.green),
-                                overflow: TextOverflow.ellipsis, // Handle long text
-                              ),
-                            ),
-
-                        ],
-                      ),
-                    );
-                  },
-                ),
-
-
-
-
-
-                Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: Dimensions.paddingSizeDefault),
                               child: Row(
@@ -420,12 +450,198 @@ class _ProductDetailsState extends State<ProductDetails> {
           },
         ),
       ),
-      bottomNavigationBar:
-          Consumer<ProductDetailsProvider>(builder: (context, details, child) {
-        return !details.isDetails
-            ? BottomCartView(product: details.productDetailsModel)
-            : const SizedBox();
-      }),
+      bottomNavigationBar: widget.categoryName == "Agricultural Machineries"
+          ? Container(
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, bottom: 10, top: 5),
+              child: ElevatedButton(
+                onPressed: () {
+                  _showQuoteForm(context); // Call the function to open pop-up
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pink, // Button background color
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  "Get Quotes",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            )
+          : Consumer<ProductDetailsProvider>(
+              builder: (context, details, child) {
+                return !details.isDetails
+                    ? BottomCartView(product: details.productDetailsModel)
+                    : const SizedBox();
+              },
+            ),
+    );
+  }
+
+  // Function to display the pop-up modal bottom sheet
+  void _showQuoteForm(BuildContext context) {
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController numberController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController messageController = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: 20,
+              right: 20,
+              top: 20,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Get Quotes",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight:
+                                  FontWeight.bold)), // Replace with your icon
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  TextField(
+                    controller: nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Name:',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: numberController,
+                    decoration: const InputDecoration(
+                      labelText: 'Number:',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.phone,
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      labelText: 'Email:',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: messageController,
+                    decoration: const InputDecoration(
+                      labelText: 'Message:',
+                      border: OutlineInputBorder(),
+                    ),
+                    maxLines: 3,
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context); // Close button
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Colors.black, // Button background color
+                        ),
+                        child: const Text("Close",
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                      const SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Call the provider to submit the quote
+                          Data quote = Data(
+                            name: nameController.text,
+                            number: numberController.text,
+                            email: emailController.text,
+                            message: messageController.text,
+                            productId: widget.productId
+                                .toString(), // Assuming you have productId available
+                          );
+
+                          print(quote);
+
+                          Provider.of<GetQuotesProvider>(context, listen: false)
+                              .submitQuote(quote)
+                              .then((success) {
+                            if (success) {
+                              // Show success dialog
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Success"),
+                                    content: const Text(
+                                        "We have successfully received your message. Our Sales person will contact you very soon."),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(
+                                              context); // Close the dialog
+                                          Navigator.pop(
+                                              context); // Close the modal or page if needed
+                                        },
+                                        child: const Text("OK"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              // Show failure dialog
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Error"),
+                                    content: const Text(
+                                        "Failed to submit quote. Please try again."),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(
+                                              context); // Close the dialog
+                                        },
+                                        child: const Text("OK"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Colors.pink, // Button background color
+                        ),
+                        child: const Text("Submit",
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            ));
+      },
     );
   }
 }

@@ -11,7 +11,6 @@ class ErrorResponse {
       });
     }
   }
-
 }
 
 class Errors {

@@ -95,7 +95,7 @@ class MoreHorizontalSection extends StatelessWidget {
                   SquareButton(
                     image: Images.cartImage,
                     title: getTranslated('cart', context),
-                    navigateTo: const CartScreen(),
+                    navigateTo: const CartScreen(cartList: [],),
                     count: Provider.of<CartProvider>(context, listen: false)
                         .cartList
                         .length,

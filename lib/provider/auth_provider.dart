@@ -205,7 +205,9 @@ class AuthProvider with ChangeNotifier {
   Future logOut() async {
     ApiResponse apiResponse = await authRepo!.logout();
     if (apiResponse.response != null &&
-        apiResponse.response!.statusCode == 200) {}
+        apiResponse.response!.statusCode == 200) {
+
+    }
   }
 
   Future login(LoginModel loginBody, Function callback) async {

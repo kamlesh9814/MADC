@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/response/base/api_response.dart';
@@ -24,7 +23,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../utill/app_constants.dart';
 
 class OrderProvider with ChangeNotifier {
@@ -511,10 +509,11 @@ class OrderProvider with ChangeNotifier {
         couponCode,
         couponDiscount,
         paymentMethod);
-    print('rabin ${orderNote}');
+    print("paymentMethodis..... ${paymentMethod}");
+    print('rabin11 ${orderNote}');
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
-      print('rabin ${apiResponse.response?.data['redirect_link']}');
+      print('rabin40 ${apiResponse.response?.data['redirect_link']}');
       Navigator.pushReplacement(
           Get.context!,
           MaterialPageRoute(
@@ -539,10 +538,23 @@ class OrderProvider with ChangeNotifier {
       String? couponDiscount,
       String? paymentMethod}) async {
     _isLoading = true;
+    final payload = {
+      "orderNote": orderNote,
+      "customerId": customerId,
+      "addressId": addressId,
+      "billingAddressId": billingAddressId,
+      "couponCode": couponCode,
+      "couponDiscount": couponDiscount,
+      "paymentMethod": paymentMethod,
+    };
 
+    // Print the payload data
+    print("Payload data: $payload");
+    print("paymentmethodissweb.... ${paymentMethod}");
     ApiResponse apiResponse = await orderRepo!.webPayment(orderNote, customerId,
         addressId, billingAddressId, couponCode, couponDiscount, paymentMethod);
     print('rabin ${apiResponse.response?.data}');
+    print("payload data is ${orderRepo}");
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
       Navigator.pushReplacement(
@@ -634,7 +646,14 @@ class OrderProvider with ChangeNotifier {
       showCustomSnackBar(apiResponse.response?.data['message'], Get.context!,
           isError: false);
       Navigator.push(
-          Get.context!, MaterialPageRoute(builder: (_) => const CartScreen()));
+          Get.context!,
+          MaterialPageRoute(
+              builder: (_) => const CartScreen(
+                    cartList: [],
+                    shippingFee: 0,
+                    discount: 0,
+                    tax: 0,
+                  )));
     } else {
       ApiChecker.checkApi(apiResponse);
     }

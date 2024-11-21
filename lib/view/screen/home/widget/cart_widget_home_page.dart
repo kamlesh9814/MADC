@@ -56,7 +56,7 @@ class CartWidgetHomePage extends StatelessWidget {
           padding: const EdgeInsets.only(right: 2.0),
           child: IconButton(
             onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (_) => const CartScreen())),
+                context, MaterialPageRoute(builder: (_) => const CartScreen(cartList: [],))),
             icon: Stack(clipBehavior: Clip.none, children: [
               Image.asset(Images.cartArrowDownImage,
                   height: Dimensions.iconSizeDefault,

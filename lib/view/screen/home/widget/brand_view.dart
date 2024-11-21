@@ -20,40 +20,42 @@ class BrandView extends StatelessWidget {
     return Consumer<BrandProvider>(
       builder: (context, brandProvider, child) {
 
-        return brandProvider.brandList.isNotEmpty ?
-        isHomePage?
+        // Filter out brands with default image URL
+        List brandList = brandProvider.brandList.where((brand) =>
+        brand.image != 'def.png').toList();
+
+        return brandList.isNotEmpty ? isHomePage?
         ConstrainedBox(
-          constraints: brandProvider.brandList.isNotEmpty ? const BoxConstraints(maxHeight: 75):const BoxConstraints(maxHeight: 0),
+          constraints: brandList.isNotEmpty ? const BoxConstraints(maxHeight: 75):const BoxConstraints(maxHeight: 0),
           child: ListView.builder(
-            padding: EdgeInsets.zero,
+              padding: EdgeInsets.zero,
               scrollDirection: Axis.horizontal,
-              itemCount: brandProvider.brandList.length,
+              itemCount: brandList.length,
               itemBuilder: (ctx,index){
 
                 return InkWell(
                   onTap: () {
-                    print("kamlesh your image is here ${Provider.of<SplashProvider>(context,listen: false).baseUrls!.brandImageUrl!}/${brandProvider.brandList[index].image!}}");
+                    print("kamlesh your image is here ${Provider.of<SplashProvider>(context,listen: false).baseUrls!.brandImageUrl!}/${brandList[index].image!}}");
                     Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                       isBrand: true,
-                      id: brandProvider.brandList[index].id.toString(),
-                      name: brandProvider.brandList[index].name,
-                      image: brandProvider.brandList[index].image,
+                      id: brandList[index].id.toString(),
+                      name: brandList[index].name,
+                      image: brandList[index].image,
                     )));
                   },
                   child: Padding(padding: EdgeInsets.only(left : Provider.of<LocalizationProvider>(context, listen: false).isLtr ? Dimensions.paddingSizeDefault : 0,
-                      right: brandProvider.brandList.length == index + 1? Dimensions.paddingSizeDefault : Provider.of<LocalizationProvider>(context, listen: false).isLtr ? 0 : Dimensions.paddingSizeDefault),
+                      right: brandList.length == index + 1? Dimensions.paddingSizeDefault : Provider.of<LocalizationProvider>(context, listen: false).isLtr ? 0 : Dimensions.paddingSizeDefault),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                         Container(width: 50, height: 50,
-                          decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(5)),
+                        decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(5)),
                             color: Theme.of(context).highlightColor,
                             boxShadow: Provider.of<ThemeProvider>(context, listen: false).darkTheme ? null :[BoxShadow(color: Colors.grey.withOpacity(0.12), spreadRadius: 1, blurRadius: 1, offset: const Offset(0, 1))]),
 
-                          child: ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(5)),
-                            child: CustomImage(image: '${Provider.of<SplashProvider>(context,listen: false).baseUrls!.brandImageUrl!}/${brandProvider.brandList[index].image!}')),
-                        ),
-                      ],
-                    ),
-                  ),
+                        child: ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            child: CustomImage(image: '${Provider.of<SplashProvider>(context,listen: false).baseUrls!.brandImageUrl!}/${brandList[index].image!}'))),
+                  ],
+                ),
+                ),
                 );
 
               }),
@@ -67,7 +69,7 @@ class BrandView extends StatelessWidget {
             crossAxisSpacing: 5,
           ),
           padding: EdgeInsets.zero,
-          itemCount:  brandProvider.brandList.length,
+          itemCount:  brandList.length,
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
@@ -76,20 +78,21 @@ class BrandView extends StatelessWidget {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                   isBrand: true,
-                  id: brandProvider.brandList[index].id.toString(),
-                  name: brandProvider.brandList[index].name,
-                  image: brandProvider.brandList[index].image,
+                  id: brandList[index].id.toString(),
+                  name: brandList[index].name,
+                  image: brandList[index].image,
                 )));
               },
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                  Expanded(child: ClipRRect(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                      child: Container(decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall)),
-                        child: CustomImage(image:'${Provider.of<SplashProvider>(context,listen: false).baseUrls!.brandImageUrl!}/${brandProvider.brandList[index].image!}'),),)),
+                Expanded(child: ClipRRect(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                  child: Container(decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall)),
+                    child: CustomImage(image:'${Provider.of<SplashProvider>(context,listen: false).baseUrls!.brandImageUrl!}/${brandList[index].image!}'),),)),
 
-                  SizedBox(height: (MediaQuery.of(context).size.width/4) * 0.3,
-                    child: Center(child: Text(brandProvider.brandList[index].name!, maxLines: 1, overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center, style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall)))),
-                ],
+                SizedBox(height: (MediaQuery.of(context).size.width/4) * 0.3,
+                    child: Center(child: Text(brandList[index].name!, maxLines: 1, overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center, style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall)))),
+
+              ],
               ),
             );
 
@@ -100,6 +103,7 @@ class BrandView extends StatelessWidget {
     );
   }
 }
+
 
 class BrandShimmer extends StatelessWidget {
   final bool isHomePage;

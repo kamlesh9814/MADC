@@ -52,6 +52,7 @@ class BannerProvider extends ChangeNotifier {
           }
           else if(bannerModel['banner_type'] == 'Promo Banner Right'){
             promoBannerRight = BannerModel.fromJson(bannerModel);
+
           }else if(bannerModel['banner_type'] == 'Promo Banner Middle Bottom'){
             promoBannerMiddleBottom = BannerModel.fromJson(bannerModel);
           }
@@ -60,17 +61,20 @@ class BannerProvider extends ChangeNotifier {
           }
           else if(bannerModel['banner_type'] == 'Promo Banner Left'){
             promoBannerLeft = BannerModel.fromJson(bannerModel);
+
           }else if(bannerModel['banner_type'] == 'Sidebar Banner'){
             sideBarBanner = BannerModel.fromJson(bannerModel);
+
           }else if(bannerModel['banner_type'] == 'Top Side Banner'){
             topSideBarBannerBottom = BannerModel.fromJson(bannerModel);
+
           }else if(bannerModel['banner_type'] == 'Footer Banner'){
             _footerBannerList?.add(BannerModel.fromJson(bannerModel));
+
           }else if(bannerModel['banner_type'] == 'Main Section Banner'){
             mainSectionBanner = BannerModel.fromJson(bannerModel);
           }
         });
-
         _currentIndex = 0;
         notifyListeners();
       } else {
@@ -129,8 +133,6 @@ class BannerProvider extends ChangeNotifier {
           image: Provider.of<TopSellerProvider>(context,listen: false).topSellerList?[tIndex].shop?.image,
         )));
       }
-
     }
   }
-
 }

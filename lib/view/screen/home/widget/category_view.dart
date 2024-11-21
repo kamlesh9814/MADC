@@ -38,6 +38,8 @@ class CategoryView extends StatelessWidget {
                      // print("data is here ${categoryProvider.categoryList[index].id}");
                       return InkWell(
                         onTap: () {
+                        //  print("ID  is here ${categoryProvider.categoryList[index].id}");
+                          print("Name is here ${categoryProvider.categoryList[index].name}");
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -48,7 +50,8 @@ class CategoryView extends StatelessWidget {
                                             .toString(),
                                         name: categoryProvider
                                             .categoryList[index].name,
-                                      )));
+                                      ))
+                          );
                         },
 
                           child: Center(

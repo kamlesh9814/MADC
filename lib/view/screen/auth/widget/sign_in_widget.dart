@@ -153,8 +153,6 @@ class SignInWidgetState extends State<SignInWidget> {
                 validator: (value) =>ValidateCheck.validateEmptyText(value, 'ENTER_YOUR_PASSWORD')),
 
 
-
-
             const SizedBox(height: Dimensions.paddingSizeExtraLarge),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [Row(children: [
@@ -238,8 +236,5 @@ class SignInWidgetState extends State<SignInWidget> {
         ),
       ),
     );
-
-
   }
-
 }
